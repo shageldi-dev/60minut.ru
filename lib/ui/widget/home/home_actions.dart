@@ -55,6 +55,7 @@ class HomeActions extends StatelessWidget {
                     context: context,
                     builder: (BuildContext context) => FilterDialog(
                           result: result,
+                      controller: controller,
                         ));
               }),
         ),

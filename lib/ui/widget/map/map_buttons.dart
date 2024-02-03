@@ -48,7 +48,7 @@ class MapActions extends StatelessWidget {
           child: MapButton(icon: "assets/icons/scale.svg", onClick: () {
             showDialog(context: context,
                 builder: (BuildContext context) =>
-                    FilterDialog(result: result,));
+                    FilterDialog(result: result,controller: controller,));
           }),
         ),
         const SizedBox(width: 12),

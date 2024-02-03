@@ -1,3 +1,4 @@
+import 'package:booking/features/home/data/HomeController.dart';
 import 'package:booking/ui/theme/color.dart';
 import 'package:booking/ui/widget/home/actions/SearchChip.dart';
 import 'package:booking/ui/widget/home/actions/filter/filter_dropdown.dart';
@@ -6,7 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class FilterSearch extends StatelessWidget {
-  const FilterSearch({super.key});
+  const FilterSearch({super.key, required this.controller});
+ final HomeController controller;
 
   @override
   Widget build(BuildContext context) {
@@ -49,20 +51,19 @@ class FilterSearch extends StatelessWidget {
               children: [
                 Expanded(
                   child: FilterDropdownRegion(
-                    list: [],
-                    callback: (p0) {},
+                    controller: controller,
                   ),
                   flex: 1,
                 ),
                 Expanded(
                   child: FilterDropdownCity(
-                    list: [],
+                    controller: controller,
                   ),
                   flex: 1,
                 ),
                 Expanded(
                   child: FilterDropdownMetro(
-                    list: [],
+                    controller: controller,
                   ),
                   flex: 1,
                 ),
@@ -71,15 +72,19 @@ class FilterSearch extends StatelessWidget {
             SizedBox(
               height: 12,
             ),
+            if (controller.selecteArea!=null || controller.selecteDistrict!=null || controller.selectedMetro!=null)
             Wrap(
               alignment: WrapAlignment.start,
               crossAxisAlignment: WrapCrossAlignment.start,
               spacing: 12,
               children: [
-                SearchChip(text: "м. Марьино"),
-                SearchChip(text: "Рандеву Марьино"),
+                controller.selecteArea!=null ?   SearchChip(text: controller.selecteArea!.name!) :Container(),
+                controller.selecteDistrict!=null ?   SearchChip(text: controller.selecteDistrict!.name!) : Container(),
+
+                controller.selectedMetro!=null ?  SearchChip(text: "м. ${controller.selectedMetro!.name!}") : Container(),
               ],
-            )
+            )else
+              Container(),
           ],
         ),
       ),

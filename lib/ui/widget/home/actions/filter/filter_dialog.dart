@@ -14,7 +14,8 @@ import '../../../../../features/home/models/filter_options.dart';
 
 class FilterDialog extends StatefulWidget {
   final FilterOptions? result;
-  const FilterDialog({super.key, this.result});
+  final HomeController controller;
+  const FilterDialog({super.key, this.result, required this.controller});
 
   @override
   State<FilterDialog> createState() => _FilterDialogState();
@@ -81,12 +82,12 @@ class _FilterDialogState extends State<FilterDialog> {
                       onToChange: (p0) {},
                     ),
                     const Divider(),
-                    const FilterSearch(),
+                     FilterSearch(controller: widget.controller,),
                     const Divider(),
                     const FilterRating(),
                     FilterSegmentedButtons(
-                      buttons: widget.result?.rating!
-                              .map((e) => e.toString())
+                      buttons: widget.result!.rating!.keys
+                              .map((e) => widget.result!.rating![e]!.toString())
                               .toList() ??
                           [],
                       onSelected: (p0, p1) {},

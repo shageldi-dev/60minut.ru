@@ -1,3 +1,6 @@
+import 'package:booking/core/api_end_points.dart';
+import 'package:booking/di.dart';
+import 'package:booking/features/home/data/HomeController.dart';
 import 'package:booking/ui/page/like_page.dart';
 import 'package:booking/ui/theme/color.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +18,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
       backgroundColor: white,
       title: GestureDetector(
           onTap: (){
+            locator<HomeController>().fetchHotels(ApiEndPoints.hotels);
             context.go("/");
           },
           child: SvgPicture.asset("assets/icons/Logo.svg", semanticsLabel: 'Acme Logo')),

@@ -1,28 +1,69 @@
 import 'package:booking/features/home/models/detail_model.dart';
-import 'package:booking/features/home/models/filter_options.dart';
+import 'package:booking/features/home/models/filter_options.dart' as filter;
 import 'package:booking/features/home/models/hotel_details/hotel_details.dart';
 import 'package:booking/features/home/models/hotels.dart';
 import 'package:booking/features/home/models/romantic_model.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:get/get.dart';
-import 'package:dio/dio.dart';
 
 import '../../../core/Api.dart';
 import '../../../core/api_end_points.dart';
-import '../../../core/api_params.dart';
 import '../../../core/api_utils.dart';
 
 class HomeController extends ChangeNotifier {
-  FilterOptions? result;
+  filter.FilterOptions? result;
   Hotell? hotel;
   Romantic? romantic;
   HotelDetails? hotelDetails;
   bool loading = true;
   bool hotelLoading = true;
   List<Room> rooms = [];
-  List<String>? metros = [];
-  //List<String>? metros ;
+  //List<String>? metros = [];
+  List<filter.Metro>? metroList = [];
+  List<String>? selectedMetroList = [];
+  List<String>? selectedMetroIdList = [];
+
+  filter.Metro? selectedMetro;
+  String? selectedFilterMetroId;
+
+ void selectMetroId(filter.Metro val) {
+    selectedMetro = val;
+    selectedMetroIdList!.add(val.id!);
+    selectedMetroList!.add(val.name!);
+    ///filter
+     selectedFilterMetroId = val.id;
+    notifyListeners();
+  }
+
+
+  void clearMetro(){
+   selectedMetroList!.clear();
+  }
+///district drop
+  List<filter.Area>? districtList = [];
+
+  filter.Area? selecteDistrict;
+  String? selecteDistrictId;
+  // String? selectedMetroName;
+
+  void selectDistrictId(filter.Area val) {
+    selecteDistrict = val;
+    selecteDistrictId = val.id;
+    notifyListeners();
+  }
+  ///city drop
+  List<filter.Area>? areaList = [];
+
+  filter.Area? selecteArea;
+  String? selectedAreaId;
+  // String? selectedMetroName;
+
+  void selectAreaId(filter.Area val) {
+    selecteArea = val;
+    selectedAreaId = val.id;
+    notifyListeners();
+  }
+
 
   void fetchDataFromApi() async {
     final connectivityResult = await (Connectivity().checkConnectivity());
@@ -36,19 +77,11 @@ class HomeController extends ChangeNotifier {
     final response = await apiUtils.get(url: url);
 
     if (response != null) {
-      result = FilterOptions.fromJson(response.data);
-      metros =
-          result!.metro!.keys.map((e) => result!.metro![e]!.name!).toList();
-      // if (result != null) {
-      // //  metros = result!.metro!.keys.map((e) => result!.metro![e]!.name! ).toList();
-      //   // if (metros!.isNotEmpty) {
-      //    //  selectedMetro =result!.metro!.keys.map((e) => result!.metro![e]!.name! ).first;
-      //   // }
-      //
-      // }
-      if (metros!.isNotEmpty) {
-        selectedMetro = metros!.first;
-      }
+      result = filter.FilterOptions.fromJson(response.data);
+      metroList = result!.metro!.keys.map((e) => result!.metro![e]!).toList();
+      districtList = result!.district!.keys.map((e) => result!.district![e]!).toList();
+      areaList = result!.area!.keys.map((e) => result!.area![e]!).toList();
+
       hotelLoading = false;
       notifyListeners();
     }
@@ -129,7 +162,7 @@ class HomeController extends ChangeNotifier {
       }
       if (path == ApiEndPoints.romantic) {
         //apiPath = ApiEndPoints.romantic;
-        setApiPath(ApiEndPoints.hotels);
+        setApiPath(ApiEndPoints.romantic);
         if (response != null) {
           romantic = Romantic.fromMap(response.data);
           var collections = romantic!.collections;
@@ -144,13 +177,6 @@ class HomeController extends ChangeNotifier {
             });
           });
           //romanticHotels = data;//hotel!.hotels!;
-          hotelLoading = false;
-          notifyListeners();
-        }
-        if (response != null) {
-          hotel = Hotell.fromJson(response.data);
-          var data = hotel!.hotels!.keys.map((e) => hotel!.hotels![e]).toList();
-          allHotels = data; //hotel!.hotels!;
           hotelLoading = false;
           notifyListeners();
         }
@@ -220,13 +246,13 @@ class HomeController extends ChangeNotifier {
   //   _controller.updateFilteredHotels(selectedFilter);
   // }
 
-  String selectedFilter = ''; // Track the selected filter
+  String selectedMainFilter = ''; // Track the selected filter
 
   void onShortFilterPressed(String filter) {
-    selectedFilter = filter;
+    selectedMainFilter = filter;
     notifyListeners();
     // Call the function to update data in HomePartPage
-    updateFilteredHotels(selectedFilter);
+    updateFilteredHotels(selectedMainFilter);
   }
 
   //List<Hotels>? allHotels; // Assuming this is your list of all hotels
@@ -264,15 +290,7 @@ class HomeController extends ChangeNotifier {
 
   ///metro
 
-  String? selectedMetro;
 
-  selectMetro(String val) {
-    int ind = metros!.indexWhere((element) => element == val);
-    if (ind > -1) {
-      selectedMetro = metros![ind];
-      notifyListeners();
-    }
-  }
 
   void contactUs(String name, String phone, String text, String whatsapp,
       String viber, String sms, Function onSuccess, Function onError) async {

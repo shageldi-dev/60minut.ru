@@ -1,5 +1,5 @@
 import 'package:booking/features/home/data/HomeController.dart';
-import 'package:booking/features/home/models/filter_options.dart';
+import 'package:booking/features/home/models/filter_options.dart' as filter;
 import 'package:flutter/material.dart';
 
 const List<String> list = <String>[
@@ -32,24 +32,26 @@ class MetroDropdown extends StatelessWidget {
                   borderRadius: BorderRadius.circular(6)),
               child: Padding(
                 padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-                child: DropdownButton<String>(
-                  value: controller
-                      .selectedMetro, //widget.controller.selectedMetro,
+                child: DropdownButton(
+                  value: controller.selectedMetro, //!= null ? controller.selectedMetro as int : null,//controller.selectedMetro!, //widget.controller.selectedMetro,
                   isExpanded: true,
                   icon: const Icon(Icons.arrow_drop_down),
                   elevation: 16,
                   style: const TextStyle(color: Colors.deepPurple),
-                  onChanged: (String? value) {
+                  onChanged: (  val) {
                     // This is called when the user selects an item.
                     // widget.controller.selectMetro(value!);
                     //  setState(() {
                     //    widget.dropdownValue = value!;
                     //  });
                     //controller.selectedMetro = value;
-                    controller.selectMetro(value!);
+                    if (val is filter.Metro) {
+                      controller.selectMetroId(val);
+                      print(controller.selectedMetroIdList);
+                    }
                   },
                   underline: Container(),
-                  items: controller.metros!.map((value) {
+                  items: controller.metroList!.map((value) {
                     // final station = controller.result!.metro![value]!;
                     return DropdownMenuItem(
                       value: value,
@@ -57,7 +59,7 @@ class MetroDropdown extends StatelessWidget {
                         width: 150,
                         padding: const EdgeInsets.only(left: 12),
                         child: Text(
-                          value,
+                          value.name!,
                           style: const TextStyle(
                             fontSize: 15,
                             fontWeight: FontWeight.w400,
