@@ -1,14 +1,19 @@
 import 'package:booking/features/home/models/detail_model.dart';
+import 'package:booking/features/home/models/drawer_city_model.dart';
 import 'package:booking/features/home/models/filter_options.dart' as filter;
 import 'package:booking/features/home/models/hotel_details/hotel_details.dart';
 import 'package:booking/features/home/models/hotels.dart';
 import 'package:booking/features/home/models/romantic_model.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/cupertino.dart';
-
 import '../../../core/Api.dart';
 import '../../../core/api_end_points.dart';
 import '../../../core/api_utils.dart';
+
+final List<String> globalMainPageMetroIdList = [];
+String globalMainPageMetroId = '';
+
+String globalDrawerMetroId = '';
 
 class HomeController extends ChangeNotifier {
   filter.FilterOptions? result;
@@ -17,7 +22,9 @@ class HomeController extends ChangeNotifier {
   HotelDetails? hotelDetails;
   bool loading = true;
   bool hotelLoading = true;
+  bool dawerLoading = true;
   List<Room> rooms = [];
+
   //List<String>? metros = [];
   List<filter.Metro>? metroList = [];
   List<String>? selectedMetroList = [];
@@ -26,24 +33,29 @@ class HomeController extends ChangeNotifier {
   filter.Metro? selectedMetro;
   String? selectedFilterMetroId;
 
- void selectMetroId(filter.Metro val) {
+  void selectMetroId(filter.Metro val) {
     selectedMetro = val;
     selectedMetroIdList!.add(val.id!);
     selectedMetroList!.add(val.name!);
+    globalMainPageMetroIdList.add(val.id!);
+    globalMainPageMetroId = val.id!;
+
     ///filter
-     selectedFilterMetroId = val.id;
+    selectedFilterMetroId = val.id;
     notifyListeners();
   }
 
-
-  void clearMetro(){
-   selectedMetroList!.clear();
+  void clearMetro() {
+    selectedMetroList!.clear();
+    globalMainPageMetroIdList.clear();
   }
-///district drop
+
+  ///district drop
   List<filter.Area>? districtList = [];
 
   filter.Area? selecteDistrict;
   String? selecteDistrictId;
+
   // String? selectedMetroName;
 
   void selectDistrictId(filter.Area val) {
@@ -51,11 +63,13 @@ class HomeController extends ChangeNotifier {
     selecteDistrictId = val.id;
     notifyListeners();
   }
+
   ///city drop
   List<filter.Area>? areaList = [];
 
   filter.Area? selecteArea;
   String? selectedAreaId;
+
   // String? selectedMetroName;
 
   void selectAreaId(filter.Area val) {
@@ -63,7 +77,6 @@ class HomeController extends ChangeNotifier {
     selectedAreaId = val.id;
     notifyListeners();
   }
-
 
   void fetchDataFromApi() async {
     final connectivityResult = await (Connectivity().checkConnectivity());
@@ -79,11 +92,65 @@ class HomeController extends ChangeNotifier {
     if (response != null) {
       result = filter.FilterOptions.fromJson(response.data);
       metroList = result!.metro!.keys.map((e) => result!.metro![e]!).toList();
-      districtList = result!.district!.keys.map((e) => result!.district![e]!).toList();
+      districtList =
+          result!.district!.keys.map((e) => result!.district![e]!).toList();
       areaList = result!.area!.keys.map((e) => result!.area![e]!).toList();
 
       hotelLoading = false;
       notifyListeners();
+    }
+
+    //  print(response.statusCode);
+    // } catch (e) {
+    //   print(e);
+    // }
+  }
+
+  ///drawer city
+  List<City>? drawerCityList = [];
+  List<MskCity>? drawerMskCityList = [];
+
+  var selectedDrawerCity;
+  String? selectedDrawerCityId;
+  DrawerCityModel? drawerCityModel;
+
+  void selectDrawerCity(var val) {
+    selectedDrawerCity = val;
+    selectedDrawerCityId = val.id;
+    globalDrawerMetroId = val.id;
+    notifyListeners();
+  }
+
+  void fetchDrawerCity() async {
+    final connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.none) {
+      return;
+    }
+    dawerLoading = true;
+    //notifyListeners();
+
+    String url = Api.baseUrl + ApiEndPoints.drawerCty;
+
+    // try {
+    final response = await apiUtils.get(url: url);
+
+    if (response != null) {
+      drawerCityModel = DrawerCityModel.fromJson(response.data);
+      drawerCityList = drawerCityModel!.city!.keys
+          .map((e) => drawerCityModel!.city![e]!)
+          .toList();
+      drawerMskCityList = drawerCityModel!.mskCity!.keys
+          .map((e) => drawerCityModel!.mskCity![e]!)
+          .toList();
+      selectedDrawerCity = drawerMskCityList!.first;
+      // if (drawerCityList!.isNotEmpty) {
+      //   selectedDrawerCity = drawerCityList!.first;
+      // }
+      dawerLoading = false;
+      notifyListeners();
+      //  print(drawerCityList!.map((e) => e.city));
+      // print('777777777777777777777777777777777777777777$dawerLoading');
+      //print(drawerMskCityList!.map((e) => e.name));
     }
 
     //  print(response.statusCode);
@@ -289,8 +356,6 @@ class HomeController extends ChangeNotifier {
   }
 
   ///metro
-
-
 
   void contactUs(String name, String phone, String text, String whatsapp,
       String viber, String sms, Function onSuccess, Function onError) async {

@@ -11,4 +11,5 @@ class ApiEndPoints {
   static const rooms = "rooms?token=${Api.api_key}";
   static const recall = "recall?token=${Api.api_key}";
   static const feedback = "feedback?token=${Api.api_key}";
+  static const drawerCty = "geo?token=${Api.api_key}";
 }

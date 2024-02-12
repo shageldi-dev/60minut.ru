@@ -97,7 +97,7 @@ class _FilterDialogState extends State<FilterDialog> {
                     // Room? room = roomEntry.value;
                     FilterButtons(
                         buttons: widget.result?.r!.keys
-                                .map((e) => e.toString())
+                                .map((e) => widget.result!.r![e]!.title!.toString())
                                 .toList() ??
                             []
 

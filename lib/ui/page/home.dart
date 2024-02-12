@@ -27,6 +27,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     _controller.fetchDataFromApi();
+    //_controller.fetchDrawerCity();
     //  _controller.fetchSearchHotel(_controller.searchingText);
     // print('[[[[[[[[[[[[[[[[[[[[[[object]]]]]]]]]]]]]]]]]]]]]]');
     //   print(_controller.searchResult);
