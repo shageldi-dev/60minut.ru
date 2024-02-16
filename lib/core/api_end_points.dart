@@ -12,4 +12,8 @@ class ApiEndPoints {
   static const recall = "recall?token=${Api.api_key}";
   static const feedback = "feedback?token=${Api.api_key}";
   static const drawerCty = "geo?token=${Api.api_key}";
+  static const search_hotel = "search_hotel?token=${Api.api_key}";
+  static const search_room = "search_room?token=${Api.api_key}";
+  static const search_metro = "search_metro?token=${Api.api_key}";
+  static const search_page = "search_page?token=${Api.api_key}";
 }

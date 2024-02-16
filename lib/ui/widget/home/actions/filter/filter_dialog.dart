@@ -14,8 +14,11 @@ import '../../../../../features/home/models/filter_options.dart';
 
 class FilterDialog extends StatefulWidget {
   final FilterOptions? result;
-  final HomeController controller;
-  const FilterDialog({super.key, this.result, required this.controller});
+
+  const FilterDialog({
+    super.key,
+    this.result,
+  });
 
   @override
   State<FilterDialog> createState() => _FilterDialogState();
@@ -29,155 +32,202 @@ class _FilterDialogState extends State<FilterDialog> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.height,
-      color: white,
-      child: Column(
-        children: [
-          Expanded(
-            flex: 90,
-            child: Container(
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Row(
+    return ListenableBuilder(
+        listenable: controller,
+        builder: (BuildContext context, Widget? child) {
+          return Container(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            color: white,
+            child: Column(
+              children: [
+                Expanded(
+                  flex: 90,
+                  child: Container(
+                    child: SingleChildScrollView(
+                      child: Column(
                         children: [
-                          const Expanded(
-                            flex: 90,
-                            child: Text(
-                              'Фильтр',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                color: Color(0xFF2F2F2F),
-                                fontSize: 24,
-                                fontFamily: 'MullerNarrow',
-                                fontWeight: FontWeight.w800,
-                              ),
+                          Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Row(
+                              children: [
+                                const Expanded(
+                                  flex: 90,
+                                  child: Text(
+                                    'Фильтр',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      color: Color(0xFF2F2F2F),
+                                      fontSize: 24,
+                                      fontFamily: 'MullerNarrow',
+                                      fontWeight: FontWeight.w800,
+                                    ),
+                                  ),
+                                ),
+                                GestureDetector(
+                                  child: const Icon(Icons.close),
+                                  onTap: () => {context.pop()},
+                                )
+                              ],
                             ),
                           ),
-                          GestureDetector(
-                            child: const Icon(Icons.close),
-                            onTap: () => {context.pop()},
-                          )
+                          // const FilterByTime(),
+                          const Divider(),
+                          FilterSegmentedButtons(
+                            selected: widget.result?.priceType!
+                                    .toJson()
+                                    .entries
+                                    .where((element) =>
+                                        element.key == controller.priceType)
+                                    .firstOrNull
+                                    ?.value ??
+                                "",
+                            buttons: widget.result?.priceType!
+                                    .toJson()
+                                    .entries
+                                    .map((e) => e.value.toString())
+                                    .toList() ??
+                                [],
+                            onSelected: (p0, p1) {
+                              controller.setPriceType(widget.result?.priceType!
+                                  .toJson()
+                                  .keys
+                                  .elementAt(p1));
+                            },
+                          ),
+                          FilterPrice(
+                            result: widget.result,
+                            from_value: controller.priceFrom ?? 0,
+                            to_value: controller.priceTo ?? 0,
+                            onFromChange: (p0) {
+                              try {
+                                controller.setPriceFrom(int.parse(p0));
+                              } catch (e) {
+                                controller.setPriceFrom(null);
+                              }
+                            },
+                            onToChange: (p0) {
+                              try {
+                                controller.setPriceTo(int.parse(p0));
+                              } catch (e) {
+                                controller.setPriceTo(null);
+                              }
+                            },
+                          ),
+                          const Divider(),
+                          FilterSearch(),
+                          const Divider(),
+                          const FilterRating(),
+                          FilterSegmentedButtons(
+                            selected: "${controller.rating}",
+                            buttons: widget.result!.rating!.keys
+                                    .map((e) =>
+                                        widget.result!.rating![e]!.toString())
+                                    .toList() ??
+                                [],
+                            onSelected: (p0, p1) {
+                              try {
+                                controller.setRating(int.parse(p0));
+                              } catch (e) {
+                                controller.setRating(null);
+                              }
+                            },
+                          ),
+                          const Divider(),
+                          // MapEntry<String, Room>?  roomEntry = hotelDetails.rooms!.entries.elementAt(index);
+                          // Room? room = roomEntry.value;
+                          FilterButtons(
+                            buttons: widget.result?.r!.keys
+                                    .map((e) =>
+                                        widget.result!.r![e]!.title!.toString())
+                                    .toList() ??
+                                [],
+                            values: widget.result?.r!.keys.toList() ?? [],
+
+                            // [
+                            //   "Санузел",
+                            //   "Душ",
+                            //   "Ванна",
+                            //   "Сауна",
+                            //   "Халаты",
+                            //   "Круглая кровать"
+                            // ]
+                          ),
+                          const Divider(),
+                          KFilterButton(
+                            buttons: widget.result?.h!
+                                    .toJson()
+                                    .entries
+                                    .map((e) => e.value.toString())
+                                    .toList() ??
+                                [],
+                            values:
+                                widget.result?.h!.toJson().keys.toList() ?? [],
+                            //[
+                            //   "Своя парковка",
+                            //   "Бар/ресторан",
+                            //   "Доставка еды и напитков б номер","Wifi",
+                            //   "Безналичная оплата",
+                            //
+                            // ]
+                          ),
                         ],
                       ),
                     ),
-                    const FilterByTime(),
-                    const Divider(),
-                    FilterSegmentedButtons(
-                      buttons: widget.result?.priceType!
-                              .toJson()
-                              .entries
-                              .map((e) => e.value.toString())
-                              .toList() ??
-                          [],
-                      onSelected: (p0, p1) {},
-                    ),
-                    FilterPrice(
-                      result: widget.result,
-                      onFromChange: (p0) {},
-                      onToChange: (p0) {},
-                    ),
-                    const Divider(),
-                     FilterSearch(controller: widget.controller,),
-                    const Divider(),
-                    const FilterRating(),
-                    FilterSegmentedButtons(
-                      buttons: widget.result!.rating!.keys
-                              .map((e) => widget.result!.rating![e]!.toString())
-                              .toList() ??
-                          [],
-                      onSelected: (p0, p1) {},
-                    ),
-                    const Divider(),
-                    // MapEntry<String, Room>?  roomEntry = hotelDetails.rooms!.entries.elementAt(index);
-                    // Room? room = roomEntry.value;
-                    FilterButtons(
-                        buttons: widget.result?.r!.keys
-                                .map((e) => widget.result!.r![e]!.title!.toString())
-                                .toList() ??
-                            []
-
-                        // [
-                        //   "Санузел",
-                        //   "Душ",
-                        //   "Ванна",
-                        //   "Сауна",
-                        //   "Халаты",
-                        //   "Круглая кровать"
-                        // ]
-                        ),
-                    const Divider(),
-                    KFilterButton(
-                        buttons: widget.result?.h!
-                                .toJson()
-                                .entries
-                                .map((e) => e.value.toString())
-                                .toList() ??
-                            []
-                        //[
-                        //   "Своя парковка",
-                        //   "Бар/ресторан",
-                        //   "Доставка еды и напитков б номер","Wifi",
-                        //   "Безналичная оплата",
-                        //
-                        // ]
-                        ),
-                  ],
+                  ),
                 ),
-              ),
-            ),
-          ),
-          Expanded(
-            flex: 10,
-            child: Container(
-              height: 60,
-              decoration: const BoxDecoration(color: Color(0xB2454545)),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.only(left: 16.0),
+                Expanded(
+                  flex: 10,
+                  child: Container(
+                    height: 60,
+                    decoration: const BoxDecoration(color: Color(0xB2454545)),
                     child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          'Найдено:',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 15,
-                            fontWeight: FontWeight.w400,
+                        Padding(
+                          padding: EdgeInsets.only(left: 16.0),
+                          child: Row(
+                            children: [
+                              Text(
+                                'Найдено:',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                              SizedBox(
+                                width: 6,
+                              ),
+                              Text(
+                                '${controller.allHotels!.length}',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 24,
+                                  fontFamily: 'MullerNarrow',
+                                  fontWeight: FontWeight.w800,
+                                ),
+                              )
+                            ],
                           ),
                         ),
-                        SizedBox(
-                          width: 6,
-                        ),
-                        Text(
-                          '2',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 24,
-                            fontFamily: 'MullerNarrow',
-                            fontWeight: FontWeight.w800,
-                          ),
+                        ActionButtons(
+                          backgroundColor: Colors.transparent,
+                          onClearClicked: () {
+                            controller.clearFilter();
+                          },
+                          onOkClicked: () {
+                            context.pop();
+                          },
                         )
                       ],
                     ),
                   ),
-                  ActionButtons(
-                    backgroundColor: Colors.transparent,
-                    onClearClicked: () {},
-                    onOkClicked: () {},
-                  )
-                ],
-              ),
+                )
+              ],
             ),
-          )
-        ],
-      ),
-    );
+          );
+        });
   }
 }

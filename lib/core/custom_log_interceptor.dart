@@ -54,7 +54,9 @@ class CustomLogInterceptor extends Interceptor {
   void onResponse(Response response, ResponseInterceptorHandler handler) {
     logPrint('************************ Response ************************');
     printKV('uri', response.requestOptions.uri);
-    _printResponse(response);
+    printKV('Status code', response.statusCode!);
+    printKV('Status message', response.statusMessage!);
+    // _printResponse(response);
     logPrint('*************************************************');
     // return handler.next(response);
     return super.onResponse(response, handler);
@@ -77,6 +79,8 @@ class CustomLogInterceptor extends Interceptor {
 
   void _printResponse(Response response) {
     printKV('statusCode', response.statusCode!);
+    printKV('statusMessage', response.statusMessage!);
+    printKV('redirect', "${response.realUri}");
     if (responseHeader) {
       if (response.isRedirect == true) {
         printKV('redirect', response.realUri);

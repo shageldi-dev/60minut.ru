@@ -72,6 +72,7 @@ class _RoomFilterState extends State<RoomFilter> {
                     ),
                   ),
                   FilterSegmentedButtons(
+                    selected: "",
                     buttons: ["1 ч", "3 ч", "Ночь", "Сутки"],
                     onSelected: (value, index) {
                       const values = [
@@ -90,6 +91,8 @@ class _RoomFilterState extends State<RoomFilter> {
                     },
                   ),
                   FilterPrice(
+                    from_value: 0,
+                    to_value: 0,
                     onFromChange: (p0) {
                       setState(() {
                         price_f = p0;

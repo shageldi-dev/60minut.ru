@@ -22,11 +22,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final _controller = HomeController();
-
   @override
   void initState() {
-    _controller.fetchDataFromApi();
+    controller.fetchDataFromApi();
     //_controller.fetchDrawerCity();
     //  _controller.fetchSearchHotel(_controller.searchingText);
     // print('[[[[[[[[[[[[[[[[[[[[[[object]]]]]]]]]]]]]]]]]]]]]]');
@@ -44,18 +42,15 @@ class _HomePageState extends State<HomePage> {
           height: 16,
         ),
         ListenableBuilder(
-            listenable: _controller,
+            listenable: controller,
             builder: (BuildContext context, Widget? child) {
-              return HomeActions(
-                result: _controller.result,
-                controller: _controller,
-              );
+              return HomeActions(result: controller.result);
             }),
         const SizedBox(
           height: 16,
         ),
         // ShortFilter(onPressed: _controller.onShortFilterPressed),
-        ShortFilter(onPressed: (val) {}),
+        // ShortFilter(onPressed: (val) {}),
         const SizedBox(
           height: 16,
         ),

@@ -13,12 +13,12 @@ import 'package:go_router/go_router.dart';
 import '../../../features/home/models/filter_options.dart';
 import 'buttons.dart';
 
-
 class MapActions extends StatelessWidget {
   final FilterOptions? result;
   HomeController controller;
 
-   MapActions({Key? key, this.result, required this.controller}) : super(key: key);
+  MapActions({Key? key, this.result, required this.controller})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -29,36 +29,44 @@ class MapActions extends StatelessWidget {
         const SizedBox(width: 16),
         Flexible(
           flex: 1,
-          child: MapButton(icon: "assets/icons/search.svg", onClick: () {
-            showDialog(context: context,
-                builder: (BuildContext context) => SearchDialog());
-          }),
+          child: MapButton(
+              icon: "assets/icons/search.svg",
+              onClick: () {
+                showDialog(
+                    context: context,
+                    builder: (BuildContext context) => SearchDialog());
+              }),
         ),
         const SizedBox(width: 12),
         Flexible(
           flex: 1,
-          child: MapButton(icon: "assets/icons/Metro.svg", onClick: () {
-            showDialog(context: context,
-                builder: (BuildContext context) => SelectMetro(controller: controller,));
-          }),
+          child: MapButton(
+              icon: "assets/icons/Metro.svg",
+              onClick: () {
+                showDialog(
+                    context: context,
+                    builder: (BuildContext context) => SelectMetro());
+              }),
         ),
         const SizedBox(width: 12),
         Flexible(
           flex: 1,
-          child: MapButton(icon: "assets/icons/scale.svg", onClick: () {
-            showDialog(context: context,
-                builder: (BuildContext context) =>
-                    FilterDialog(result: result,controller: controller,));
-          }),
+          child: MapButton(
+              icon: "assets/icons/scale.svg",
+              onClick: () {
+                showDialog(
+                    context: context,
+                    builder: (BuildContext context) =>
+                        FilterDialog(result: result));
+              }),
         ),
         const SizedBox(width: 12),
-
         Flexible(
           flex: 2,
           child: GestureDetector(
             onTap: () {
               Navigator.pop(context);
-            //  Navigator.of(context).push(MaterialPageRoute(builder: (context) => HomePage()));
+              //  Navigator.of(context).push(MaterialPageRoute(builder: (context) => HomePage()));
               //shellNavigatorKey.currentState?.popUntil((route) => route.isFirst);
             },
             child: Container(
@@ -86,7 +94,6 @@ class MapActions extends StatelessWidget {
             ),
           ),
         ),
-
         const SizedBox(width: 16),
       ],
     );

@@ -6,13 +6,17 @@ import 'package:textfields/textfields.dart';
 
 class FilterPrice extends StatelessWidget {
   final FilterOptions? result;
+  final int from_value;
+  final int to_value;
   final Function(String) onFromChange;
   final Function(String) onToChange;
   const FilterPrice(
       {super.key,
       this.result,
       required this.onFromChange,
-      required this.onToChange});
+      required this.onToChange,
+      required this.from_value,
+      required this.to_value});
 
   @override
   Widget build(BuildContext context) {
@@ -36,10 +40,11 @@ class FilterPrice extends StatelessWidget {
               ),
               Expanded(
                 flex: 1,
-                child: TextField(
+                child: TextFormField(
                   onChanged: (value) {
                     onFromChange(value);
                   },
+                  initialValue: "$from_value",
                   keyboardType: TextInputType.number,
                   inputFormatters: result != null
                       ? [
@@ -76,10 +81,12 @@ class FilterPrice extends StatelessWidget {
               ),
               Expanded(
                 flex: 1,
-                child: TextField(
+                child: TextFormField(
                   onChanged: (value) {
                     onToChange(value);
                   },
+                  initialValue: "$to_value",
+                  // controller: TextEditingController()..text = '$to_value',
                   keyboardType: TextInputType.number,
                   inputFormatters: result != null
                       ? [

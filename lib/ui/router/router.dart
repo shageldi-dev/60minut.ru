@@ -40,9 +40,7 @@ final router = GoRouter(
           path: '/',
           parentNavigatorKey: shellNavigatorKey,
           builder: (context, state) => HomePage(
-            child: HomePartPage(
-              controller: locator<HomeController>.call(),
-            ),
+            child: HomePartPage(),
           ),
         ),
         GoRoute(
@@ -50,9 +48,7 @@ final router = GoRouter(
             parentNavigatorKey: shellNavigatorKey,
             builder: (context, state) {
               return HomePage(
-                child: ClusterizedPlacemarkCollectionPage(
-                  dataController: locator<HomeController>.call(),
-                ),
+                child: ClusterizedPlacemarkCollectionPage(),
               );
             }),
         GoRoute(
@@ -79,10 +75,7 @@ final router = GoRouter(
         GoRoute(
           path: '/romantic',
           parentNavigatorKey: shellNavigatorKey,
-          builder: (context, state) => HomePage(
-              child: HomePartPage(
-            controller: locator<HomeController>.call(),
-          )),
+          builder: (context, state) => HomePage(child: HomePartPage()),
         ),
       ],
     )

@@ -21,37 +21,33 @@ class ItemWidget extends StatefulWidget {
   State<ItemWidget> createState() => _ItemWidgetState();
 }
 
-class _ItemWidgetState extends State<ItemWidget> with WidgetsBindingObserver {
+class _ItemWidgetState extends State<ItemWidget> {
   final dbHelper = DatabaseHelper();
   var isLiked = false;
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance?.addObserver(this);
-    dbHelper.isFavoriteById(int.parse(widget.hotel.hotelId!)).then((value) {
-      setState(() {
-        isLiked = value;
+    // WidgetsBinding.instance?.addObserver(this);
+    try {
+      dbHelper.isFavoriteById(int.parse(widget.hotel.hotelId!)).then((value) {
+        setState(() {
+          isLiked = value;
+        });
       });
-    });
+    } catch (e) {}
   }
 
-  @override
-  void dispose() {
-    WidgetsBinding.instance?.removeObserver(this);
-    super.dispose();
-  }
+  // @override
+  // void didChangeAppLifecycleState(AppLifecycleState state) {
+  //   super.didChangeAppLifecycleState(state);
 
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    super.didChangeAppLifecycleState(state);
+  //   print("State" + state.name);
 
-    print("State" + state.name);
-
-    if (state == AppLifecycleState.resumed) {
-      print("App resumed");
-    }
-  }
+  //   if (state == AppLifecycleState.resumed) {
+  //     print("App resumed");
+  //   }
+  // }
 
   Future<void> _toggleFavorite(Favorite fav) async {
     if (await dbHelper.isFavoriteById(fav.hotelId)) {

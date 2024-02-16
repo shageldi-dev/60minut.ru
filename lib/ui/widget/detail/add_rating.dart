@@ -326,11 +326,11 @@ Widget RatingSelect(String text, void Function(String) onSelected) {
           fontWeight: FontWeight.w400,
         ),
       )),
-      // Expanded(
-      //     child: FilterDropdownRegion(
-      //   list: ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"],
-      //   callback: onSelected,
-      // ))
+      Expanded(
+          child: AddRatingDropDown(
+        list: ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"],
+        onSelected: onSelected,
+      ))
     ],
   );
 }

@@ -144,7 +144,9 @@ class HotelDetails {
     this.numPlaces,
   });
 
-  factory HotelDetails.fromMap(Map<String, dynamic> json) => HotelDetails(
+  factory HotelDetails.fromMap(Map<String, dynamic> json) {
+    try {
+      return HotelDetails(
         success: json["success"],
         hotel: json["hotel"] == null ? null : Hotel.fromMap(json["hotel"]),
         rooms: Map.from(json["rooms"]!)
@@ -160,6 +162,10 @@ class HotelDetails {
         places: json["places"] == null ? null : Places.fromMap(json["places"]),
         numPlaces: json["num_places"],
       );
+    } on Exception catch (_) {
+      return HotelDetails(success: false, hotel: null, rooms: null);
+    }
+  }
 
   Map<String, dynamic> toMap() => {
         "success": success,

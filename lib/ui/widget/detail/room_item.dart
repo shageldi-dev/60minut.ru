@@ -133,7 +133,8 @@ class _RoomItemState extends State<RoomItem> {
                 child: GestureDetector(
                   onTap: () => {
                     controller.animateToPage((controller.page!.round() + 1),
-                        duration: Duration.zero, curve: Curves.linear)
+                        duration: Duration(microseconds: 500),
+                        curve: Curves.linear)
                   },
                   child: Opacity(
                     opacity: 0.70,
@@ -161,7 +162,8 @@ class _RoomItemState extends State<RoomItem> {
                 child: GestureDetector(
                   onTap: () => {
                     controller.animateToPage((controller.page!.round() - 1),
-                        duration: Duration.zero, curve: Curves.linear)
+                        duration: Duration(microseconds: 500),
+                        curve: Curves.linear)
                   },
                   child: Opacity(
                     opacity: 0.70,

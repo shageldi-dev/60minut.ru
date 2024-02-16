@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 
 class SearchChip extends StatelessWidget {
   final String text;
-  const SearchChip({super.key, required this.text});
+  final Function(String) onRemove;
+  const SearchChip({super.key, required this.text, required this.onRemove});
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +31,15 @@ class SearchChip extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 4),
-          Icon(Icons.close, color: iconColor,)
+          GestureDetector(
+            onTap: () {
+              onRemove(text);
+            },
+            child: Icon(
+              Icons.close,
+              color: iconColor,
+            ),
+          )
         ],
       ),
     );

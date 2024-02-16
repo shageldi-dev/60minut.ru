@@ -1,10 +1,14 @@
+import 'dart:convert';
+
 import 'package:booking/features/home/models/detail_model.dart';
 import 'package:booking/features/home/models/drawer_city_model.dart';
 import 'package:booking/features/home/models/filter_options.dart' as filter;
 import 'package:booking/features/home/models/hotel_details/hotel_details.dart';
 import 'package:booking/features/home/models/hotels.dart';
 import 'package:booking/features/home/models/romantic_model.dart';
+import 'package:booking/features/home/models/search_model.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import '../../../core/Api.dart';
 import '../../../core/api_end_points.dart';
@@ -14,6 +18,8 @@ final List<String> globalMainPageMetroIdList = [];
 String globalMainPageMetroId = '';
 
 String globalDrawerMetroId = '';
+
+HomeController controller = HomeController();
 
 class HomeController extends ChangeNotifier {
   filter.FilterOptions? result;
@@ -28,26 +34,236 @@ class HomeController extends ChangeNotifier {
   //List<String>? metros = [];
   List<filter.Metro>? metroList = [];
   List<String>? selectedMetroList = [];
+  List<String>? selectedAreaList = [];
+  List<String>? selectedDistrictList = [];
   List<String>? selectedMetroIdList = [];
 
   filter.Metro? selectedMetro;
   String? selectedFilterMetroId;
 
-  void selectMetroId(filter.Metro val) {
-    selectedMetro = val;
-    selectedMetroIdList!.add(val.id!);
-    selectedMetroList!.add(val.name!);
-    globalMainPageMetroIdList.add(val.id!);
-    globalMainPageMetroId = val.id!;
+  // filter
+  String sort = 'price_asc';
+  String _path = ApiEndPoints.hotels;
+  String? q = '';
+  String? priceType = null;
+  int? priceFrom = null;
+  int? priceTo = null;
+  List<String>? district = [];
+  List<String>? area = [];
+  List<String>? metro = [];
+  String? type = null;
+  String? show = null;
+  bool? withDiscount = null;
+  bool? isDesigner = null;
+  int? rating = null;
+  List<String>? r = [];
+  List<String>? h = [];
+  List<String>? selectedR = [];
+  List<String>? selectedH = [];
+  List<String>? id = [];
+  List<String>? city = [];
+  List<String>? entryPoint = [];
 
-    ///filter
-    selectedFilterMetroId = val.id;
+  List<SearchResult> searchMetros = [];
+  List<SearchResult> searchHotels = [];
+  List<SearchResult> searchRooms = [];
+  bool searchLoading = false;
+
+  void clearFilter() {
+    q = '';
+    priceType = null;
+    priceFrom = null;
+    priceTo = null;
+    district = [];
+    area = [];
+    metro = [];
+    type = null;
+    show = null;
+    withDiscount = null;
+    isDesigner = null;
+    rating = null;
+    r = [];
+    h = [];
+    selectedR = [];
+    selectedH = [];
+    id = [];
+    city = [];
+    entryPoint = [];
     notifyListeners();
+    fetchHotels(_path);
+  }
+
+  Future<List<SearchResult>> search(String query) async {
+    try {
+      searchLoading = true;
+      notifyListeners();
+      await fetchSearch(
+          Api.baseUrl + ApiEndPoints.searchHotel,
+          query,
+          (p0) => {
+                searchHotels =
+                    p0.results?.entries.map((e) => e.value).toList() ?? []
+              },
+          () => null);
+      await fetchSearch(
+          Api.baseUrl + ApiEndPoints.search_metro,
+          query,
+          (p0) => {
+                searchMetros =
+                    p0.results?.entries.map((e) => e.value).toList() ?? []
+              },
+          () => null);
+      await fetchSearch(
+          Api.baseUrl + ApiEndPoints.search_room,
+          query,
+          (p0) => {
+                searchRooms =
+                    p0.results?.entries.map((e) => e.value).toList() ?? []
+              },
+          () => null);
+      searchLoading = false;
+      notifyListeners();
+      return [
+        ...searchMetros.map((e) {
+          e.type = "metro";
+          return e;
+        }).toList(),
+        ...searchHotels.map((e) {
+          e.type = "hotel";
+          return e;
+        }).toList(),
+        ...searchRooms.map((e) {
+          e.type = "room";
+          return e;
+        }).toList()
+      ];
+    } catch (e) {
+      searchLoading = false;
+      notifyListeners();
+      return List.empty();
+    }
+  }
+
+  Future<void> fetchSearch(String url, String query,
+      Function(SearchHotel) onSuccess, Function() onError) async {
+    final connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.none) {
+      return;
+    }
+
+    // try {
+    final response =
+        await apiUtils.get(url: url + "&term=${Uri.encodeComponent(query)}");
+
+    if (response != null) {
+      onSuccess(SearchHotel.fromMap(response.data));
+    }
+  }
+
+  void selectMetroId(filter.Metro val) {
+    try {
+      selectedMetro = val;
+      selectedMetroIdList!.add(val.id!);
+      metro!.add(val.id!);
+      selectedMetroList!.add(val.name!);
+      globalMainPageMetroIdList.add(val.id!);
+      globalMainPageMetroId = val.id!;
+
+      ///filter
+      selectedFilterMetroId = val.id;
+      notifyListeners();
+      fetchHotels(_path);
+    } catch (e) {}
+  }
+
+  void deleteMetroId(filter.Metro? val) {
+    try {
+      selectedMetroIdList!.remove(val!.id!);
+      globalMainPageMetroIdList!.remove(val.id!);
+      metro!.remove(val.id!);
+      selectedMetroList!.remove(val.name!);
+      notifyListeners();
+      fetchHotels(_path);
+    } catch (e) {}
   }
 
   void clearMetro() {
+    metro!.clear();
     selectedMetroList!.clear();
     globalMainPageMetroIdList.clear();
+    selectedFilterMetroId = null;
+    globalDrawerMetroId = "";
+    notifyListeners();
+    fetchHotels(_path);
+  }
+
+  void addArea(filter.Area? val) {
+    try {
+      selecteArea = val;
+      selectedAreaId = val!.id;
+      area!.add(val!.id!);
+      selectedAreaList!.add(val.name!);
+      notifyListeners();
+      fetchHotels(_path);
+    } catch (e) {}
+  }
+
+  void deleteArea(filter.Area? val) {
+    try {
+      area!.remove(val!.id!);
+      selectedAreaList!.remove(val!.name!);
+      notifyListeners();
+      fetchHotels(_path);
+    } catch (e) {}
+  }
+
+  void addDistrict(filter.Area? val) {
+    try {
+      selecteDistrict = val;
+      selecteDistrictId = val!.id;
+      district!.add(val!.id!);
+      selectedDistrictList!.add(val!.name!);
+      notifyListeners();
+      fetchHotels(_path);
+    } catch (e) {}
+  }
+
+  void deleteDistrict(filter.Area? val) {
+    try {
+      district!.remove(val!.id!);
+      selectedDistrictList!.remove(val!.name!);
+      notifyListeners();
+      fetchHotels(_path);
+    } catch (e) {}
+  }
+
+  void clickR(String? id, String? name) {
+    try {
+      if (r!.contains(id!)) {
+        selectedR!.remove(name!);
+        r!.remove(id!);
+      } else {
+        selectedR!.add(name!);
+        r!.add(id!);
+      }
+      notifyListeners();
+      fetchHotels(_path);
+    } catch (e) {}
+  }
+
+  void clickH(String? id, String? name) {
+    try {
+      print(id);
+      if (h!.contains(id!)) {
+        selectedH!.remove(name!);
+        h!.remove(id!);
+      } else {
+        selectedH!.add(name!);
+        h!.add(id!);
+      }
+      notifyListeners();
+      fetchHotels(_path);
+    } catch (e) {}
   }
 
   ///district drop
@@ -202,7 +418,99 @@ class HomeController extends ChangeNotifier {
     notifyListeners();
   }
 
+  // filter
+  void setSort(String value) {
+    sort = value;
+    fetchHotels(_path);
+  }
+
+  void setQ(String? value) {
+    q = value;
+    fetchHotels(_path);
+  }
+
+  void setPriceType(String? value) {
+    priceType = value;
+    fetchHotels(_path);
+  }
+
+  void setPriceFrom(int? value) {
+    priceFrom = value;
+    fetchHotels(_path);
+  }
+
+  void setPriceTo(int? value) {
+    priceTo = value;
+    fetchHotels(_path);
+  }
+
+  void setDistrict(List<String>? value) {
+    district = value;
+    fetchHotels(_path);
+  }
+
+  void setArea(List<String>? value) {
+    area = value;
+    fetchHotels(_path);
+  }
+
+  void setMetro(List<String>? value) {
+    metro = value;
+    fetchHotels(_path);
+  }
+
+  void setType(String? value) {
+    type = value;
+    fetchHotels(_path);
+  }
+
+  void setShow(String? value) {
+    show = value;
+    fetchHotels(_path);
+  }
+
+  void setWithDiscount(bool? value) {
+    withDiscount = value;
+    fetchHotels(_path);
+  }
+
+  void setIsDesigner(bool? value) {
+    isDesigner = value;
+    fetchHotels(_path);
+  }
+
+  void setRating(int? value) {
+    rating = value;
+    fetchHotels(_path);
+  }
+
+  void setRoomFacilities(List<String>? value) {
+    r = value;
+    fetchHotels(_path);
+  }
+
+  void setHotelFacilities(List<String>? value) {
+    h = value;
+    fetchHotels(_path);
+  }
+
+  void setId(List<String>? value) {
+    id = value;
+    fetchHotels(_path);
+  }
+
+  void setCity(List<String>? value) {
+    city = value;
+    fetchHotels(_path);
+  }
+
+  void setEntryPoint(List<String>? value) {
+    entryPoint = value;
+    fetchHotels(_path);
+  }
+
   void fetchHotels(String path) async {
+    this._path = path;
     final connectivityResult = await (Connectivity().checkConnectivity());
     if (connectivityResult == ConnectivityResult.none) {
       return;
@@ -211,9 +519,80 @@ class HomeController extends ChangeNotifier {
     hotelLoading = true;
 
     String url = Api.baseUrl + path;
+    Map<String, dynamic>? queryParameters = {};
+    if (sort != null) {
+      queryParameters['sort'] = sort;
+    }
 
+    if (priceType != null) {
+      queryParameters['price_type'] = priceType;
+    }
+
+    if (priceFrom != null) {
+      queryParameters['price_f'] = priceFrom;
+    }
+
+    if (priceTo != null) {
+      queryParameters['price_t'] = priceTo;
+    }
+
+    if (district != null && district!.isNotEmpty) {
+      queryParameters['district'] = district;
+    }
+
+    if (area != null && area!.isNotEmpty) {
+      queryParameters['area'] = area;
+    }
+
+    if (metro != null && metro!.isNotEmpty) {
+      queryParameters['metro'] = metro;
+    }
+
+    if (type != null) {
+      queryParameters['type'] = type;
+    }
+
+    if (show != null) {
+      queryParameters['result'] = show;
+    }
+
+    if (withDiscount != null && withDiscount == true) {
+      queryParameters['with_discount'] = withDiscount;
+    }
+
+    if (isDesigner != null && isDesigner == true) {
+      queryParameters['is_designer'] = isDesigner;
+    }
+
+    if (rating != null) {
+      queryParameters['rating'] = rating;
+    }
+
+    if (r != null && r!.isNotEmpty) {
+      queryParameters['r'] = r;
+    }
+
+    if (h != null && h!.isNotEmpty) {
+      queryParameters['h'] = h;
+    }
+
+    if (id != null && id!.isNotEmpty) {
+      queryParameters['id'] = id;
+    }
+
+    if (city != null && city!.isNotEmpty) {
+      queryParameters['city'] = city;
+    }
+
+    if (entryPoint != null && entryPoint!.isNotEmpty) {
+      queryParameters['entry_point'] = entryPoint;
+    }
+    if (q != null && q!.isNotEmpty) {
+      queryParameters['q'] = q;
+    }
     try {
-      final response = await apiUtils.get(url: url);
+      final response =
+          await apiUtils.get(url: url, queryParameters: queryParameters);
 
       if (path == ApiEndPoints.hotels) {
         // _apiPath = ApiEndPoints.hotels;

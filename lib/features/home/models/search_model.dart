@@ -1,6 +1,6 @@
 class SearchHotel {
   bool? success;
-  Map<String, Result>? results;
+  Map<String, SearchResult>? results;
   int? count;
 
   SearchHotel({
@@ -11,8 +11,8 @@ class SearchHotel {
 
   factory SearchHotel.fromMap(Map<String, dynamic> json) => SearchHotel(
         success: json["success"],
-        results: Map.from(json["results"]!)
-            .map((k, v) => MapEntry<String, Result>(k, Result.fromMap(v))),
+        results: Map.from(json["results"]!).map((k, v) =>
+            MapEntry<String, SearchResult>(k, SearchResult.fromMap(v))),
         count: json["count"],
       );
 
@@ -24,23 +24,28 @@ class SearchHotel {
       };
 }
 
-class Result {
+class SearchResult {
   String? id;
   String? title;
   String? name;
   String? url;
+  String? hotel_id;
+  String? type;
 
-  Result({
+  SearchResult({
     this.id,
     this.title,
     this.name,
     this.url,
+    this.hotel_id,
+    this.type,
   });
 
-  factory Result.fromMap(Map<String, dynamic> json) => Result(
+  factory SearchResult.fromMap(Map<String, dynamic> json) => SearchResult(
         id: json["id"],
         title: json["title"],
         name: json["name"],
+        hotel_id: json["hotel_id"],
         url: json["url"],
       );
 
@@ -48,6 +53,7 @@ class Result {
         "id": id,
         "title": title,
         "name": name,
+        "hotel_id": hotel_id,
         "url": url,
       };
 }

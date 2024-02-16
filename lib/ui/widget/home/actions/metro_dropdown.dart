@@ -10,11 +10,7 @@ const List<String> list = <String>[
 ];
 
 class MetroDropdown extends StatelessWidget {
-  // String dropdownValue = list.first;
-
-  final HomeController controller;
-
-  const MetroDropdown({super.key, required this.controller});
+  const MetroDropdown({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -33,12 +29,13 @@ class MetroDropdown extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.only(left: 8.0, right: 8.0),
                 child: DropdownButton(
-                  value: controller.selectedMetro, //!= null ? controller.selectedMetro as int : null,//controller.selectedMetro!, //widget.controller.selectedMetro,
+                  value: controller
+                      .selectedMetro, //!= null ? controller.selectedMetro as int : null,//controller.selectedMetro!, //widget.controller.selectedMetro,
                   isExpanded: true,
                   icon: const Icon(Icons.arrow_drop_down),
                   elevation: 16,
                   style: const TextStyle(color: Colors.deepPurple),
-                  onChanged: (  val) {
+                  onChanged: (val) {
                     // This is called when the user selects an item.
                     // widget.controller.selectMetro(value!);
                     //  setState(() {

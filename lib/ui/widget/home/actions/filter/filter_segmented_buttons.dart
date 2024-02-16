@@ -2,10 +2,14 @@ import 'package:flutter/material.dart';
 
 class FilterSegmentedButtons extends StatefulWidget {
   final List<String> buttons;
+  final String selected;
   final Function(String, int) onSelected;
 
   const FilterSegmentedButtons(
-      {super.key, required this.buttons, required this.onSelected});
+      {super.key,
+      required this.buttons,
+      required this.onSelected,
+      required this.selected});
 
   @override
   State<FilterSegmentedButtons> createState() => _FilterSegmentedButtonsState();
@@ -13,6 +17,15 @@ class FilterSegmentedButtons extends StatefulWidget {
 
 class _FilterSegmentedButtonsState extends State<FilterSegmentedButtons> {
   Set<String> selection = <String>{};
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    setState(() {
+      selection = {widget.selected};
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -65,8 +78,12 @@ class _FilterSegmentedButtonsState extends State<FilterSegmentedButtons> {
               ),
               iconSize: MaterialStateProperty.all(8)),
           onSelectionChanged: (Set<String> newSelection) {
-            widget.onSelected(
-                newSelection.first, widget.buttons.indexOf(newSelection.first));
+            try {
+              widget.onSelected(newSelection.first,
+                  widget.buttons.indexOf(newSelection.first));
+            } catch (e) {
+              widget.onSelected("", 0);
+            }
             setState(() {
               selection = newSelection;
             });

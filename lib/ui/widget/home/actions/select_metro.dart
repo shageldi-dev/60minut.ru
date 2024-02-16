@@ -7,95 +7,112 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class SelectMetro extends StatelessWidget {
-  SelectMetro({super.key, required this.controller});
-  HomeController controller;
+  SelectMetro({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return ListenableBuilder(listenable: controller, builder: (context, _){
-      return Align(
-        alignment: Alignment.topCenter,
-        child: Padding(
-          padding: EdgeInsets.all(8.0),
-          child: SizedBox(
-            width: double.infinity,
-            child: Card(
-              child: Wrap(
-                children: [
-                  Column(
+    return ListenableBuilder(
+        listenable: controller,
+        builder: (context, _) {
+          return Align(
+            alignment: Alignment.topCenter,
+            child: Padding(
+              padding: EdgeInsets.all(8.0),
+              child: SizedBox(
+                width: double.infinity,
+                child: Card(
+                  child: Wrap(
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Column(
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
+                      Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Column(
                               children: [
-                                const Expanded(
-                                  flex: 90,
-                                  child: SizedBox(
-                                    child: Text(
-                                      'Метро',
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        color: Color(0xFF2F2F2F),
-                                        fontSize: 24,
-                                        fontFamily: 'MullerNarrow',
-                                        fontWeight: FontWeight.w800,
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    const Expanded(
+                                      flex: 90,
+                                      child: SizedBox(
+                                        child: Text(
+                                          'Метро',
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                            color: Color(0xFF2F2F2F),
+                                            fontSize: 24,
+                                            fontFamily: 'MullerNarrow',
+                                            fontWeight: FontWeight.w800,
+                                          ),
+                                        ),
                                       ),
                                     ),
-                                  ),
+                                    Expanded(
+                                      flex: 10,
+                                      child: IconButton(
+                                          onPressed: () => {context.pop()},
+                                          icon: const Icon(
+                                            Icons.close,
+                                            color: iconColor,
+                                          )),
+                                    )
+                                  ],
                                 ),
-                                Expanded(
-                                  flex: 10,
-                                  child: IconButton(
-                                      onPressed: () => {context.pop()},
-                                      icon: const Icon(
-                                        Icons.close,
-                                        color: iconColor,
-                                      )),
-                                )
+                                SizedBox(
+                                  height: 22,
+                                ),
+                                MetroDropdown(),
+                                SizedBox(
+                                  height: 12,
+                                ),
+                                Wrap(
+                                    children: List.generate(
+                                        controller.selectedMetroList!.length,
+                                        (index) => Padding(
+                                              padding: const EdgeInsets.all(6),
+                                              child: SearchChip(
+                                                text:
+                                                    "м. ${controller.selectedMetroList![index]}",
+                                                onRemove: (value) {
+                                                  print(value);
+                                                  controller.deleteMetroId(
+                                                      controller.metroList!
+                                                          .where((element) =>
+                                                              "м. ${element.name}" ==
+                                                              value)
+                                                          .firstOrNull);
+                                                },
+                                              ),
+                                            )))
+                                // Row(
+                                //   children: [
+                                //     SearchChip(text: "м. Марьино"),
+                                //     SizedBox(
+                                //       width: 12,
+                                //     ),
+                                //     SearchChip(text: "Рандеву Марьино"),
+                                //   ],
+                                // ),
                               ],
                             ),
-                            SizedBox(
-                              height: 22,
-                            ),
-                            MetroDropdown(
-                              controller: controller,
-                            ),
-                            SizedBox(
-                              height: 12,
-                            ),
-                            Wrap(children: List.generate(controller.selectedMetroList!.length,
-                                    (index) =>    Padding(
-                                  padding: const EdgeInsets.all(6),
-                                  child: SearchChip(text: "м. ${controller.selectedMetroList![index]}"),
-                                )))
-                            // Row(
-                            //   children: [
-                            //     SearchChip(text: "м. Марьино"),
-                            //     SizedBox(
-                            //       width: 12,
-                            //     ),
-                            //     SearchChip(text: "Рандеву Марьино"),
-                            //   ],
-                            // ),
-                          ],
-                        ),
-                      ),
-                      ActionButtons(
-                        onClearClicked: () {},
-                        onOkClicked: () {},
+                          ),
+                          ActionButtons(
+                            onClearClicked: () {
+                              controller.clearMetro();
+                            },
+                            onOkClicked: () {
+                              context.pop();
+                            },
+                          )
+                        ],
                       )
                     ],
-                  )
-                ],
+                  ),
+                ),
               ),
             ),
-          ),
-        ),
-      );
-    });
+          );
+        });
   }
 }

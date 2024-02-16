@@ -11,9 +11,7 @@ import '../../../features/home/models/filter_options.dart';
 
 class HomeActions extends StatelessWidget {
   final FilterOptions? result;
-  final HomeController controller;
-  const HomeActions({Key? key, this.result, required this.controller})
-      : super(key: key);
+  const HomeActions({Key? key, this.result}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -40,9 +38,7 @@ class HomeActions extends StatelessWidget {
               onClick: () {
                 showDialog(
                     context: context,
-                    builder: (BuildContext context) => SelectMetro(
-                          controller: controller,
-                        ));
+                    builder: (BuildContext context) => SelectMetro());
               }),
         ),
         const SizedBox(width: 12),
@@ -53,10 +49,8 @@ class HomeActions extends StatelessWidget {
               onClick: () {
                 showDialog(
                     context: context,
-                    builder: (BuildContext context) => FilterDialog(
-                          result: result,
-                      controller: controller,
-                        ));
+                    builder: (BuildContext context) =>
+                        FilterDialog(result: result));
               }),
         ),
         const SizedBox(width: 12),
