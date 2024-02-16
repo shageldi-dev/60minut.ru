@@ -6,3 +6,4 @@ class Api {
 }
 //https://60minut.ru/api/v1/hotel?token=3ji2klgboopkatgmhis3esv6kezfmwkl
 //https://60minut.ru/api/v1/filter?token=3ji2klgboopkatgmhis3esv6kezfmwkl
+//https://60minut.ru/api/v1/banners?token=3ji2klgboopkatgmhis3esv6kezfmwkl

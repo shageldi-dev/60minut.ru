@@ -1,177 +1,288 @@
-import 'dart:convert';
+import 'package:booking/features/home/models/hotels.dart';
 
-class Top {
+import 'favorites.dart';
+
+class OtelMesyasaModel {
   bool? success;
-  Hotel? hotel;
-  Room? room;
+  String? hotelId;
+  Hotels? hotel;
+  String? roomId;
+  MesyasRoom? room;
 
-  Top({
+  OtelMesyasaModel({
     this.success,
+    this.hotelId,
     this.hotel,
+    this.roomId,
     this.room,
   });
 
-  factory Top.fromMap(Map<String, dynamic> json) => Top(
-        success: json["success"],
-        hotel: json["hotel"] == null ? null : Hotel.fromMap(json["hotel"]),
-        room: json["room"] == null ? null : Room.fromMap(json["room"]),
-      );
+  factory OtelMesyasaModel.fromJson(Map<String, dynamic> json) => OtelMesyasaModel(
+    success: json["success"],
+    hotelId: json["hotel_id"],
+    hotel: json["hotel"] == null ? null : Hotels.fromJson(json["hotel"]),
+    roomId: json["room_id"],
+    room: json["room"] == null ? null : MesyasRoom.fromJson(json["room"]),
+  );
 
-  Map<String, dynamic> toMap() => {
-        "success": success,
-        "hotel": hotel?.toMap(),
-        "room": room?.toMap(),
-      };
+  Map<String, dynamic> toJson() => {
+    "success": success,
+    "hotel_id": hotelId,
+    "hotel": hotel?.toJson(),
+    "room_id": roomId,
+    "room": room?.toJson(),
+  };
 }
 
-class Hotel {
+
+class MesyasRoom {
   String? id;
   String? siteId;
-  String? placeId;
-  String? title;
+  String? hotelId;
+  String? name;
   String? url;
-  String? file;
-  dynamic cap;
-  dynamic code;
-  String? active;
-  dynamic dateStart;
-  dynamic dateEnd;
-  String? numShow;
-  String? numClick;
+  String? bedKind;
+  String? bathKind;
+  String? hourPrice;
+  String? hour3Price;
+  String? nightPrice;
+  String? dayPrice;
+  String? from;
+  String? to;
+  String? minBooking;
+  String? content;
+  String? ac;
+  String? towels;
+  String? hairdryer;
+  String? toilerAccessories;
+  String? slippers;
+  String? bathrobe;
+  String? sauna;
+  String? toys;
+  String? tv;
+  String? tea;
+  String? fridge;
+  String? safebox;
+  String? toilet;
+  String? shower;
+  String? bath;
+  String? jakuzzi;
+  String? roundBed;
+  String? minibar;
+  String? stuff;
+  String? position;
+  dynamic oldId;
+  String? frontdeskId;
+  String? search;
+  String? isUse;
+  String? isDeleted;
   DateTime? createdAt;
   DateTime? updatedAt;
+  Map<String, Image>? images;
+  int? numImages;
+  String? bed;
+  int? useHour;
+  int? useNight;
+  int? useDay;
+  String? hours;
+  int? dayPriceNew;
+  int? nightPriceNew;
+  int? hourPriceNew;
 
-  Hotel({
+  MesyasRoom({
     this.id,
     this.siteId,
-    this.placeId,
-    this.title,
+    this.hotelId,
+    this.name,
     this.url,
-    this.file,
-    this.cap,
-    this.code,
-    this.active,
-    this.dateStart,
-    this.dateEnd,
-    this.numShow,
-    this.numClick,
+    this.bedKind,
+    this.bathKind,
+    this.hourPrice,
+    this.hour3Price,
+    this.nightPrice,
+    this.dayPrice,
+    this.from,
+    this.to,
+    this.minBooking,
+    this.content,
+    this.ac,
+    this.towels,
+    this.hairdryer,
+    this.toilerAccessories,
+    this.slippers,
+    this.bathrobe,
+    this.sauna,
+    this.toys,
+    this.tv,
+    this.tea,
+    this.fridge,
+    this.safebox,
+    this.toilet,
+    this.shower,
+    this.bath,
+    this.jakuzzi,
+    this.roundBed,
+    this.minibar,
+    this.stuff,
+    this.position,
+    this.oldId,
+    this.frontdeskId,
+    this.search,
+    this.isUse,
+    this.isDeleted,
     this.createdAt,
     this.updatedAt,
+    this.images,
+    this.numImages,
+    this.bed,
+    this.useHour,
+    this.useNight,
+    this.useDay,
+    this.hours,
+    this.dayPriceNew,
+    this.nightPriceNew,
+    this.hourPriceNew,
   });
 
-  factory Hotel.fromMap(Map<String, dynamic> json) => Hotel(
-        id: json["id"],
-        siteId: json["site_id"],
-        placeId: json["place_id"],
-        title: json["title"],
-        url: json["url"],
-        file: json["file"],
-        cap: json["cap"],
-        code: json["code"],
-        active: json["active"],
-        dateStart: json["date_start"],
-        dateEnd: json["date_end"],
-        numShow: json["num_show"],
-        numClick: json["num_click"],
-        createdAt: json["created_at"] == null
-            ? null
-            : DateTime.parse(json["created_at"]),
-        updatedAt: json["updated_at"] == null
-            ? null
-            : DateTime.parse(json["updated_at"]),
-      );
+  factory MesyasRoom.fromJson(Map<String, dynamic> json) => MesyasRoom(
+    id: json["id"],
+    siteId: json["site_id"],
+    hotelId: json["hotel_id"],
+    name: json["name"],
+    url: json["url"],
+    bedKind: json["bed_kind"],
+    bathKind: json["bath_kind"],
+    hourPrice: json["hour_price"],
+    hour3Price: json["hour_3_price"],
+    nightPrice: json["night_price"],
+    dayPrice: json["day_price"],
+    from: json["from"],
+    to: json["to"],
+    minBooking: json["min_booking"],
+    content: json["content"],
+    ac: json["ac"],
+    towels: json["towels"],
+    hairdryer: json["hairdryer"],
+    toilerAccessories: json["toiler_accessories"],
+    slippers: json["slippers"],
+    bathrobe: json["bathrobe"],
+    sauna: json["sauna"],
+    toys: json["toys"],
+    tv: json["tv"],
+    tea: json["tea"],
+    fridge: json["fridge"],
+    safebox: json["safebox"],
+    toilet: json["toilet"],
+    shower: json["shower"],
+    bath: json["bath"],
+    jakuzzi: json["jakuzzi"],
+    roundBed: json["round_bed"],
+    minibar: json["minibar"],
+    stuff: json["stuff"],
+    position: json["position"],
+    oldId: json["old_id"],
+    frontdeskId: json["frontdesk_id"],
+    search: json["search"],
+    isUse: json["is_use"],
+    isDeleted: json["is_deleted"],
+    createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
+    updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
+    images: Map.from(json["images"]!).map((k, v) => MapEntry<String, Image>(k, Image.fromJson(v))),
+    numImages: json["num_images"],
+    bed: json["bed"],
+    useHour: json["use_hour"],
+    useNight: json["use_night"],
+    useDay: json["use_day"],
+    hours: json["hours"],
+    dayPriceNew: json["day_price_new"],
+    nightPriceNew: json["night_price_new"],
+    hourPriceNew: json["hour_price_new"],
+  );
 
-  Map<String, dynamic> toMap() => {
-        "id": id,
-        "site_id": siteId,
-        "place_id": placeId,
-        "title": title,
-        "url": url,
-        "file": file,
-        "cap": cap,
-        "code": code,
-        "active": active,
-        "date_start": dateStart,
-        "date_end": dateEnd,
-        "num_show": numShow,
-        "num_click": numClick,
-        "created_at": createdAt?.toIso8601String(),
-        "updated_at": updatedAt?.toIso8601String(),
-      };
+  Map<String, dynamic> toJson() => {
+    "id": id,
+    "site_id": siteId,
+    "hotel_id": hotelId,
+    "name": name,
+    "url": url,
+    "bed_kind": bedKind,
+    "bath_kind": bathKind,
+    "hour_price": hourPrice,
+    "hour_3_price": hour3Price,
+    "night_price": nightPrice,
+    "day_price": dayPrice,
+    "from": from,
+    "to": to,
+    "min_booking": minBooking,
+    "content": content,
+    "ac": ac,
+    "towels": towels,
+    "hairdryer": hairdryer,
+    "toiler_accessories": toilerAccessories,
+    "slippers": slippers,
+    "bathrobe": bathrobe,
+    "sauna": sauna,
+    "toys": toys,
+    "tv": tv,
+    "tea": tea,
+    "fridge": fridge,
+    "safebox": safebox,
+    "toilet": toilet,
+    "shower": shower,
+    "bath": bath,
+    "jakuzzi": jakuzzi,
+    "round_bed": roundBed,
+    "minibar": minibar,
+    "stuff": stuff,
+    "position": position,
+    "old_id": oldId,
+    "frontdesk_id": frontdeskId,
+    "search": search,
+    "is_use": isUse,
+    "is_deleted": isDeleted,
+    "created_at": createdAt?.toIso8601String(),
+    "updated_at": updatedAt?.toIso8601String(),
+    "images": Map.from(images!).map((k, v) => MapEntry<String, dynamic>(k, v.toJson())),
+    "num_images": numImages,
+    "bed": bed,
+    "use_hour": useHour,
+    "use_night": useNight,
+    "use_day": useDay,
+    "hours": hours,
+    "day_price_new": dayPriceNew,
+    "night_price_new": nightPriceNew,
+    "hour_price_new": hourPriceNew,
+  };
 }
 
-class Room {
+class Image {
   String? id;
-  String? siteId;
-  String? placeId;
+  String? img;
+  int? time;
+  String? alt;
   String? title;
-  String? url;
-  dynamic file;
-  dynamic cap;
-  dynamic code;
-  String? active;
-  dynamic dateStart;
-  dynamic dateEnd;
-  String? numShow;
-  String? numClick;
-  DateTime? createdAt;
-  DateTime? updatedAt;
 
-  Room({
+  Image({
     this.id,
-    this.siteId,
-    this.placeId,
+    this.img,
+    this.time,
+    this.alt,
     this.title,
-    this.url,
-    this.file,
-    this.cap,
-    this.code,
-    this.active,
-    this.dateStart,
-    this.dateEnd,
-    this.numShow,
-    this.numClick,
-    this.createdAt,
-    this.updatedAt,
   });
 
-  factory Room.fromMap(Map<String, dynamic> json) => Room(
-        id: json["id"],
-        siteId: json["site_id"],
-        placeId: json["place_id"],
-        title: json["title"],
-        url: json["url"],
-        file: json["file"],
-        cap: json["cap"],
-        code: json["code"],
-        active: json["active"],
-        dateStart: json["date_start"],
-        dateEnd: json["date_end"],
-        numShow: json["num_show"],
-        numClick: json["num_click"],
-        createdAt: json["created_at"] == null
-            ? null
-            : DateTime.parse(json["created_at"]),
-        updatedAt: json["updated_at"] == null
-            ? null
-            : DateTime.parse(json["updated_at"]),
-      );
+  factory Image.fromJson(Map<String, dynamic> json) => Image(
+    id: json["id"],
+    img: json["img"],
+    time: json["time"],
+    alt: json["alt"],
+    title: json["title"],
+  );
 
-  Map<String, dynamic> toMap() => {
-        "id": id,
-        "site_id": siteId,
-        "place_id": placeId,
-        "title": title,
-        "url": url,
-        "file": file,
-        "cap": cap,
-        "code": code,
-        "active": active,
-        "date_start": dateStart,
-        "date_end": dateEnd,
-        "num_show": numShow,
-        "num_click": numClick,
-        "created_at": createdAt?.toIso8601String(),
-        "updated_at": updatedAt?.toIso8601String(),
-      };
+  Map<String, dynamic> toJson() => {
+    "id": id,
+    "img": img,
+    "time": time,
+    "alt": alt,
+    "title": title,
+  };
 }

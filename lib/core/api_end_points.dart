@@ -16,4 +16,5 @@ class ApiEndPoints {
   static const search_room = "search_room?token=${Api.api_key}";
   static const search_metro = "search_metro?token=${Api.api_key}";
   static const search_page = "search_page?token=${Api.api_key}";
+  static const mesyasOtel = "banners?token=${Api.api_key}";
 }

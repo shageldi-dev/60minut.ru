@@ -7,6 +7,7 @@ import 'package:booking/features/home/models/hotel_details/hotel_details.dart';
 import 'package:booking/features/home/models/hotels.dart';
 import 'package:booking/features/home/models/romantic_model.dart';
 import 'package:booking/features/home/models/search_model.dart';
+import 'package:booking/features/home/models/top_month.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
@@ -24,11 +25,16 @@ HomeController controller = HomeController();
 class HomeController extends ChangeNotifier {
   filter.FilterOptions? result;
   Hotell? hotel;
+  OtelMesyasaModel? otelMesyasaModel;
+ final List<Hotels?> mesyasOtels = [];
   Romantic? romantic;
+  //Collection? romantic;
   HotelDetails? hotelDetails;
   bool loading = true;
   bool hotelLoading = true;
   bool dawerLoading = true;
+  bool mesyasLoading = true;
+  bool mesyasRoomLoading = true;
   List<Room> rooms = [];
 
   //List<String>? metros = [];
@@ -611,24 +617,80 @@ class HomeController extends ChangeNotifier {
         setApiPath(ApiEndPoints.romantic);
         if (response != null) {
           romantic = Romantic.fromMap(response.data);
-          var collections = romantic!.collections;
-          collections?.forEach((key, value) {
-            // Access the rooms map from each collection
-            var rooms = value.rooms;
-            allHotels.clear();
-
-            // Add each room to the roomsList
-            rooms?.forEach((roomKey, roomValue) {
-              allHotels.add(roomValue);
-            });
+          var collections = romantic!.collections!['15'];
+          var rooms = collections!.rooms;
+          allHotels.clear();
+          rooms?.forEach((roomKey, roomValue) {
+            allHotels.add(roomValue);
           });
-          //romanticHotels = data;//hotel!.hotels!;
+
+          // collections?.forEach((key, value) {
+          //   // Access the rooms map from each collection
+          //   var rooms = value.rooms;
+          //   allHotels.clear();
+          //
+          //   // Add each room to the roomsList
+          //   rooms?.forEach((roomKey, roomValue) {
+          //     allHotels.add(roomValue);
+          //   });
+          // });
           hotelLoading = false;
           notifyListeners();
         }
 
         //print(response.statusCode);
       }
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  // void fetchMesyasRoom() async {
+  //   final connectivityResult = await (Connectivity().checkConnectivity());
+  //   if (connectivityResult == ConnectivityResult.none) {
+  //     return;
+  //   }
+  //
+  //   mesyasRoomLoading = true;
+  //
+  //   String url = Api.baseUrl + ApiEndPoints.mesyasOtel;
+  //
+  //   // try {
+  //   final response = await apiUtils.get(
+  //     url: url,
+  //   );
+  //
+  //   if (response != null) {
+  //     hotelDetails = HotelDetails.fromMap(response.data);
+  //     mesyasRoomLoading = false;
+  //     notifyListeners();
+  //   }
+  //   print(response.statusCode);
+  //   // } catch (e) {
+  //   //   print(e);
+  //   // }
+  // }
+  void fetchMesyasHotels() async {
+    final connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.none) {
+      return;
+    }
+
+    mesyasLoading = true;
+
+    String url = Api.baseUrl + ApiEndPoints.mesyasOtel;
+    try {
+      final response =
+      await apiUtils.get(url: url);
+
+        setApiPath(ApiEndPoints.hotels);
+        if (response != null) {
+          otelMesyasaModel = OtelMesyasaModel.fromJson(response.data);
+          mesyasOtels.add(otelMesyasaModel!.hotel);
+          mesyasLoading = false;
+          notifyListeners();
+        }
+
     } catch (e) {
       print(e);
     }
@@ -642,7 +704,7 @@ class HomeController extends ChangeNotifier {
 
     loading = true;
 
-    String url = Api.baseUrl + ApiEndPoints.hotel;
+    String url = Api.baseUrl + ApiEndPoints.mesyasOtel;
 
     // try {
     final response = await apiUtils.get(
@@ -661,38 +723,9 @@ class HomeController extends ChangeNotifier {
     // }
   }
 
-  //  List<Hotels>? allHotels; // Assuming this is your list of all hotels
-  //
-  // List<Hotels> filteredHotels(String filter) {
-  //   // Implement your filtering logic here
-  //   if (allHotels == null) {
-  //     return [];
-  //   }
-  //
-  //   switch (filter) {
-  //     case 'до 700':
-  //       return allHotels!.where((hotel) => int.parse(hotel.price!) <= 700).toList();
-  //     case 'На час':
-  //       //return allHotels!.where((hotel) => hotel.availableForHour).toList();
-  //     case 'С джакузи':
-  //      // return allHotels!.where((hotel) => hotel.).toList();
-  //   // Add more cases for other filters as needed
-  //     default:
-  //       return allHotels!;
-  //   }
-  // }
 
-  // String selectedFilter = ''; // Track the selected filter
-  //
-  // void onShortFilterPressed(String filter) {
-  //
-  //     selectedFilter = filter;
-  //   notifyListeners();
-  //   // Call the function to update data in HomePartPage
-  //   _controller.updateFilteredHotels(selectedFilter);
-  // }
 
-  String selectedMainFilter = ''; // Track the selected filter
+  String selectedMainFilter = '';
 
   void onShortFilterPressed(String filter) {
     selectedMainFilter = filter;
@@ -701,8 +734,7 @@ class HomeController extends ChangeNotifier {
     updateFilteredHotels(selectedMainFilter);
   }
 
-  //List<Hotels>? allHotels; // Assuming this is your list of all hotels
-  List<Hotels?> allHotels = []; // Variable to hold filtered hotels
+  List<Hotels?> allHotels = [];
   List<Hotels?> filteredHotels = [];
 
   void updateFilteredHotels(String filter) {

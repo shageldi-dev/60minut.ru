@@ -67,9 +67,13 @@ class AppDrawer extends StatelessWidget {
                       text: "ОТЕЛЬ МЕСЯЦА",
                       image: "assets/icons/Cup.svg",
                     ),
-                    const AppDrawerButton(
+                     AppDrawerButton(
                       text: "НОМЕР МЕСЯЦА",
                       image: "assets/icons/bed.svg",
+                      onClick: (){
+                        context.push("/mesyasOtel");
+
+                      },
                     ),
                     AppDrawerButton(
                       text: "РОМАНТИКА",
