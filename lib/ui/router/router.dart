@@ -7,6 +7,7 @@ import 'package:booking/ui/page/like_page.dart';
 import 'package:booking/ui/page/main_page.dart';
 import 'package:booking/ui/page/all_romantic.dart';
 import 'package:booking/ui/page/otel_mesyasa.dart';
+import 'package:booking/ui/page/room_mesyasa.dart';
 import 'package:booking/ui/page/top20.dart';
 import 'package:booking/ui/widget/home/home_part.dart';
 import 'package:booking/ui/widget/map/yandex_maplit.dart';
@@ -69,15 +70,15 @@ final router = GoRouter(
           builder: (context, state) => Top20tPage(),
         ),
         GoRoute(
+          path: '/mesyasRoom',
+          parentNavigatorKey: shellNavigatorKey,
+          builder: (context, state) => MesyasRoomPage(),
+        ),
+        GoRoute(
           path: '/mesyasOtel',
           parentNavigatorKey: shellNavigatorKey,
-          builder: (context, state) => MesyasOtelPage(),
+          builder: (context, state) =>  MesyasOtelPage(),
         ),
-        // GoRoute(
-        //   path: '/allRomantic',
-        //   parentNavigatorKey: shellNavigatorKey,
-        //   builder: (context, state) =>  RomanticHotelsPage(),
-        // ),
         GoRoute(
           path: '/romantic',
           parentNavigatorKey: shellNavigatorKey,

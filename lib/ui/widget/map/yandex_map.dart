@@ -169,30 +169,9 @@ class _ClusterizedPlacemarkCollectionExampleState
                                 //   Hotels find = widget.dataController.filteredHotels[0];
                                 return Dialog(
                                   insetPadding: EdgeInsets.all(8),
-                                  clipBehavior: Clip.antiAlias,
+                                 // clipBehavior: Clip.antiAlias,
                                   elevation: 0,
-                                  child: ItemWidget(hotel: widget.dataController.allHotels[i]!,)
-                                  // DialogItem(
-                                  //   id:  widget.dataController.allHotels[i]!.id!,
-                                  //   name: widget.dataController.allHotels[i]!
-                                  //       .name!, //self.mapId.value,
-                                  //   image: widget
-                                  //       .dataController.allHotels[i]!.img!,
-                                  //   favorite: widget
-                                  //       .dataController.allHotels[i]!.favorite,
-                                  //   metroName: widget.dataController
-                                  //       .allHotels[i]!.metroName!,
-                                  //   walk: widget
-                                  //       .dataController.allHotels[i]!.walk!,
-                                  //   price: widget
-                                  //       .dataController.allHotels[i]!.price!,
-                                  //   priceTypeText: widget.dataController
-                                  //       .allHotels[i]!.priceTypeText!,
-                                  //   minHour: widget
-                                  //       .dataController.allHotels[i]!.minHour!,
-                                  //   phoneNumber: widget
-                                  //       .dataController.allHotels[i]!.phone!,
-                                  // ),
+                                  child: ItemWidget(hotel: widget.dataController.allHotels[i]!),
                                 );
                               }).then((_) {
                             isDialogOpen = false;

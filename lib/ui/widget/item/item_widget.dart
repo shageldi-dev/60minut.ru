@@ -65,6 +65,7 @@ class _ItemWidgetState extends State<ItemWidget> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => {
+        context.pop(),
         context.push("/details/${widget.hotel.id}"),
         print(widget.hotel.id! + '---------------------------------------------')
       },

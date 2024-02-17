@@ -1,13 +1,14 @@
 import 'package:booking/features/home/models/hotels.dart';
 
 import 'favorites.dart';
+import 'hotel_details/room_model.dart';
 
 class OtelMesyasaModel {
   bool? success;
   String? hotelId;
   Hotels? hotel;
   String? roomId;
-  MesyasRoom? room;
+  Room? room;
 
   OtelMesyasaModel({
     this.success,
@@ -22,7 +23,7 @@ class OtelMesyasaModel {
     hotelId: json["hotel_id"],
     hotel: json["hotel"] == null ? null : Hotels.fromJson(json["hotel"]),
     roomId: json["room_id"],
-    room: json["room"] == null ? null : MesyasRoom.fromJson(json["room"]),
+    room: json["room"] == null ? null : Room.fromMap(json["room"]),
   );
 
   Map<String, dynamic> toJson() => {
@@ -30,7 +31,7 @@ class OtelMesyasaModel {
     "hotel_id": hotelId,
     "hotel": hotel?.toJson(),
     "room_id": roomId,
-    "room": room?.toJson(),
+    "room": room?.toMap(),
   };
 }
 

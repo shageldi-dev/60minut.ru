@@ -25,9 +25,13 @@ HomeController controller = HomeController();
 class HomeController extends ChangeNotifier {
   filter.FilterOptions? result;
   Hotell? hotel;
-  OtelMesyasaModel? otelMesyasaModel;
- final List<Hotels?> mesyasOtels = [];
+  OtelMesyasaModel? roomMesyasaModel;
+  String? otelMesyasaId;
+  String? roomMesyasaId;
+
+  final List<Hotels?> mesyasRooms = [];
   Romantic? romantic;
+
   //Collection? romantic;
   HotelDetails? hotelDetails;
   bool loading = true;
@@ -35,6 +39,7 @@ class HomeController extends ChangeNotifier {
   bool dawerLoading = true;
   bool mesyasLoading = true;
   bool mesyasRoomLoading = true;
+  bool mesyasOtelLoading = true;
   List<Room> rooms = [];
 
   //List<String>? metros = [];
@@ -645,32 +650,7 @@ class HomeController extends ChangeNotifier {
     }
   }
 
-  // void fetchMesyasRoom() async {
-  //   final connectivityResult = await (Connectivity().checkConnectivity());
-  //   if (connectivityResult == ConnectivityResult.none) {
-  //     return;
-  //   }
-  //
-  //   mesyasRoomLoading = true;
-  //
-  //   String url = Api.baseUrl + ApiEndPoints.mesyasOtel;
-  //
-  //   // try {
-  //   final response = await apiUtils.get(
-  //     url: url,
-  //   );
-  //
-  //   if (response != null) {
-  //     hotelDetails = HotelDetails.fromMap(response.data);
-  //     mesyasRoomLoading = false;
-  //     notifyListeners();
-  //   }
-  //   print(response.statusCode);
-  //   // } catch (e) {
-  //   //   print(e);
-  //   // }
-  // }
-  void fetchMesyasHotels() async {
+   fetchMesyasRooms() async {
     final connectivityResult = await (Connectivity().checkConnectivity());
     if (connectivityResult == ConnectivityResult.none) {
       return;
@@ -680,17 +660,29 @@ class HomeController extends ChangeNotifier {
 
     String url = Api.baseUrl + ApiEndPoints.mesyasOtel;
     try {
-      final response =
-      await apiUtils.get(url: url);
+      final response = await apiUtils.get(url: url);
 
-        setApiPath(ApiEndPoints.hotels);
-        if (response != null) {
-          otelMesyasaModel = OtelMesyasaModel.fromJson(response.data);
-          mesyasOtels.add(otelMesyasaModel!.hotel);
-          mesyasLoading = false;
-          notifyListeners();
-        }
-
+      setApiPath(ApiEndPoints.hotels);
+      if (response != null) {
+        roomMesyasaModel = OtelMesyasaModel.fromJson(response.data);
+        otelMesyasaId = roomMesyasaModel!.hotel!.id;//.hotel!.hotelId;
+        roomMesyasaId = roomMesyasaModel!.roomId;//.hotel!.hotelId;
+        mesyasRooms.add(Hotels(
+            id: roomMesyasaModel!.room!.hotelId,
+            hotelId: roomMesyasaModel!.roomId,
+            name: roomMesyasaModel!.room!.name,
+            img: roomMesyasaModel!.room!.images!.values.first.img,
+            metroName: roomMesyasaModel!.hotel!.metroName!,///yok
+            walk: roomMesyasaModel!.hotel!.walk,///yok
+            minHour: roomMesyasaModel!.room!.minBooking,
+            price: roomMesyasaModel!.room!.hourPrice,
+            // priceHour: otelMesyasaModel!.room!.hourPrice,
+            phone: roomMesyasaModel!.hotel!.phone,
+            priceTypeText: roomMesyasaModel!.hotel!.priceTypeText,
+        ));
+        mesyasLoading = false;
+        notifyListeners();
+      }
     } catch (e) {
       print(e);
     }
@@ -704,7 +696,7 @@ class HomeController extends ChangeNotifier {
 
     loading = true;
 
-    String url = Api.baseUrl + ApiEndPoints.mesyasOtel;
+    String url = Api.baseUrl + ApiEndPoints.hotel;
 
     // try {
     final response = await apiUtils.get(
@@ -722,8 +714,6 @@ class HomeController extends ChangeNotifier {
     //   print(e);
     // }
   }
-
-
 
   String selectedMainFilter = '';
 
