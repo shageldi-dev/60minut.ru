@@ -14,7 +14,7 @@ class HomePartPage extends StatefulWidget {
   @override
   State<HomePartPage> createState() => _HomePartPageState();
 }
-
+/// 32 - 64
 class _HomePartPageState extends State<HomePartPage> {
   // final _controller = HomeController();
 
@@ -29,6 +29,8 @@ class _HomePartPageState extends State<HomePartPage> {
       path = ApiEndPoints.romantic;
     }
     controller.fetchHotels(path);
+    controller.fetchShortFilters();
+
     super.initState();
   }
 
@@ -59,7 +61,7 @@ class _HomePartPageState extends State<HomePartPage> {
                   if (controller.hotelLoading) {
                     return const CircularProgressIndicator();
                   }
-                  return HomeList(items: controller.allHotels);
+                  return HomeList(items: controller.filteredHotels);
 
                   // return HomeList(items: _controller.filteredHotels.sublist(0, _controller.filteredHotels.length));
                 }),

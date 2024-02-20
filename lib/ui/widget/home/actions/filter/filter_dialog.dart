@@ -115,7 +115,7 @@ class _FilterDialogState extends State<FilterDialog> {
                             },
                           ),
                           const Divider(),
-                          FilterSearch(),
+                          const FilterSearch(),
                           const Divider(),
                           const FilterRating(),
                           FilterSegmentedButtons(
@@ -186,10 +186,10 @@ class _FilterDialogState extends State<FilterDialog> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Padding(
-                          padding: EdgeInsets.only(left: 16.0),
+                          padding: const EdgeInsets.only(left: 16.0),
                           child: Row(
                             children: [
-                              Text(
+                              const Text(
                                 'Найдено:',
                                 style: TextStyle(
                                   color: Colors.white,
@@ -197,12 +197,12 @@ class _FilterDialogState extends State<FilterDialog> {
                                   fontWeight: FontWeight.w400,
                                 ),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 width: 6,
                               ),
                               Text(
-                                '${controller.allHotels!.length}',
-                                style: TextStyle(
+                                '${controller.allHotels.length}',
+                                style: const TextStyle(
                                   color: Colors.white,
                                   fontSize: 24,
                                   fontFamily: 'MullerNarrow',

@@ -16,6 +16,8 @@ import '../../../core/api_end_points.dart';
 import '../../../core/api_utils.dart';
 
 final List<String> globalMainPageMetroIdList = [];
+/// 710 - 800 nji setir aralyk HomeController de
+/// home, ShortFilter, home_part sularam uytgedildi acsan yokarsynda nireleri uytgedileninin sertiri commentda yazylan
 String globalMainPageMetroId = '';
 
 String globalDrawerMetroId = '';
@@ -628,17 +630,9 @@ class HomeController extends ChangeNotifier {
           rooms?.forEach((roomKey, roomValue) {
             allHotels.add(roomValue);
           });
+         // romantic!.collections!.keys.map((e) => shortFilter.add(e));
 
-          // collections?.forEach((key, value) {
-          //   // Access the rooms map from each collection
-          //   var rooms = value.rooms;
-          //   allHotels.clear();
-          //
-          //   // Add each room to the roomsList
-          //   rooms?.forEach((roomKey, roomValue) {
-          //     allHotels.add(roomValue);
-          //   });
-          // });
+
           hotelLoading = false;
           notifyListeners();
         }
@@ -715,40 +709,89 @@ class HomeController extends ChangeNotifier {
     // }
   }
 
-  String selectedMainFilter = '';
 
-  void onShortFilterPressed(String filter) {
-    selectedMainFilter = filter;
+  void onShortFilterPressed(int filterIndex) {
+    selectedFilterIndex = filterIndex;
     notifyListeners();
     // Call the function to update data in HomePartPage
-    updateFilteredHotels(selectedMainFilter);
+    updateFilteredHotels();
   }
 
   List<Hotels?> allHotels = [];
-  List<Hotels?> filteredHotels = [];
+ final List<Hotels?> filteredHotels = [];
+  //List<String> shortFilter = [];
+  int? selectedFilterIndex = -1;
+  //List<Collection> collectionFilter = [];
+  Map<String, Collection>?  collection;
 
-  void updateFilteredHotels(String filter) {
+  void fetchShortFilters() async {
+    final connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.none) {
+      return;
+    }
+
+    hotelLoading = true;
+
+    String url = Api.baseUrl + ApiEndPoints.mesyasOtel;
+
+    try {
+      final response =
+      await apiUtils.get(url: url);
+
+        if (response != null) {
+          romantic = Romantic.fromMap(response.data);
+           collection = romantic!.collections;
+            print(collection);
+          // romantic!.collections!.keys.map((e) => shortFilter.add(e));
+
+
+          hotelLoading = false;
+          notifyListeners();
+        }
+
+        //print(response.statusCode);
+
+    } catch (e) {
+      print(e);
+    }
+  }
+  void updateFilteredHotels() {
     if (hotel!.hotels == null) {
       return;
     }
 
-    switch (filter) {
-      case 'до 700':
-        filteredHotels = allHotels
-            .where((hotel) => int.parse(hotel!.price!) <= 700)
-            .toList();
+    switch (selectedFilterIndex) {
+      case -1:
+      filteredHotels.addAll(allHotels);
+          break;
+      case 0:
+      var data = collection![selectedFilterIndex.toString()];
+
+      var rooms = data!.rooms;
+      filteredHotels.clear();
+      rooms?.forEach((roomKey, roomValue) {
+        filteredHotels.add(roomValue);
+      });
         break;
-      case 'На час':
-        filteredHotels =
-            allHotels; //.where((hotel) => hotel.availableForHour).toList();
+      case 1:
+        var data = collection![selectedFilterIndex.toString()];
+        var rooms = data!.rooms;
+        filteredHotels.clear();
+        rooms?.forEach((roomKey, roomValue) {
+          filteredHotels.add(roomValue);
+        }); //.where((hotel) => hotel.availableForHour).toList();
         break;
-      case 'С джакузи':
-        filteredHotels =
-            allHotels; //.where((hotel) => hotel.hasJacuzzi).toList();
+      case 2:
+        var data = collection![selectedFilterIndex.toString()];
+        var rooms = data!.rooms;
+        filteredHotels.clear();
+        rooms?.forEach((roomKey, roomValue) {
+          filteredHotels.add(roomValue);
+        }); //.where((hotel) => hotel.hasJacuzzi).toList();
         break;
       // Add more cases for other filters as needed
       default:
-        filteredHotels = allHotels;
+        filteredHotels.addAll(allHotels);
         break;
     }
 
