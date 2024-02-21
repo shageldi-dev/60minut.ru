@@ -371,10 +371,8 @@ class HomeController extends ChangeNotifier {
       drawerMskCityList = drawerCityModel!.mskCity!.keys
           .map((e) => drawerCityModel!.mskCity![e]!)
           .toList();
-      selectedDrawerCity = drawerMskCityList!.first;
-      // if (drawerCityList!.isNotEmpty) {
-      //   selectedDrawerCity = drawerCityList!.first;
-      // }
+      //selectedDrawerCity = drawerMskCityList!.first;
+
       dawerLoading = false;
       notifyListeners();
       //  print(drawerCityList!.map((e) => e.city));
@@ -799,7 +797,6 @@ class HomeController extends ChangeNotifier {
     notifyListeners();
   }
 
-  ///metro
 
   void contactUs(String name, String phone, String text, String whatsapp,
       String viber, String sms, Function onSuccess, Function onError) async {

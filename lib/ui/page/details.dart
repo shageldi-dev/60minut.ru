@@ -392,27 +392,27 @@ class _DetailsWidgetState extends State<DetailsWidget>
                 ],
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(16),
-              child: Container(
-                decoration: ShapeDecoration(
-                  color: Color(0xFFFF555A),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                ),
-                child: Padding(
-                  //hotelDetails.hotel!.description!
-                  padding: const EdgeInsets.all(16),
-                  child: Html(
-                    data: widget.hotelDetails.hotel!.description,
-                    onLinkTap: (url, _, __) {
-                      debugPrint("Opening $url...");
-                    },
-                  ),
-                ),
-              ),
-            ),
+            // Padding(
+            //   padding: const EdgeInsets.all(16),
+            //   child: Container(
+            //     decoration: ShapeDecoration(
+            //       color: Color(0xFFFF555A),
+            //       shape: RoundedRectangleBorder(
+            //         borderRadius: BorderRadius.circular(12),
+            //       ),
+            //     ),
+            //     child: Padding(
+            //       //hotelDetails.hotel!.description!
+            //       padding: const EdgeInsets.all(16),
+            //       child: Html(
+            //         data: widget.hotelDetails.hotel!.description,
+            //         onLinkTap: (url, _, __) {
+            //           debugPrint("Opening $url...");
+            //         },
+            //       ),
+            //     ),
+            //   ),
+            // ),
 
             ///list
             Container(
@@ -1029,17 +1029,25 @@ class _DetailsWidgetState extends State<DetailsWidget>
             Container(
               color: const Color(0xFFF5F5F5),
               padding: const EdgeInsets.all(16.0),
-              child: Text(
-                widget.hotelDetails.hotel!.search != null
-                    ? widget.hotelDetails.hotel!.search!
-                    : '',
-                //'В районе Печатники вы можете отлично провести время вдвоем в одной из недорогих гостиниц. Отель Ампир в Москве отличается приемлемой ценовой категорий, на 2-3 часа здесь можно остановиться абсолютно без ущерба для своего кошелька. Это хорошее решение и для отдыха на всю ночь. Можно побыть только вдвоем, отвлечься от хлопот и забот.',
-                style: TextStyle(
-                  color: Color(0xFF2F2F2F),
-                  fontSize: 15,
-                  fontWeight: FontWeight.w400,
-                ),
+              child:
+              Html(
+                data: widget.hotelDetails.hotel!.description,
+                onLinkTap: (url, _, __) {
+                  debugPrint("Opening $url...");
+                },
               ),
+
+              // Text(
+              //   widget.hotelDetails.hotel!.search != null
+              //       ? widget.hotelDetails.hotel!.search!
+              //       : '',
+              //   //'В районе Печатники вы можете отлично провести время вдвоем в одной из недорогих гостиниц. Отель Ампир в Москве отличается приемлемой ценовой категорий, на 2-3 часа здесь можно остановиться абсолютно без ущерба для своего кошелька. Это хорошее решение и для отдыха на всю ночь. Можно побыть только вдвоем, отвлечься от хлопот и забот.',
+              //   style: TextStyle(
+              //     color: Color(0xFF2F2F2F),
+              //     fontSize: 15,
+              //     fontWeight: FontWeight.w400,
+              //   ),
+              // ),
             )
           ],
         ),
