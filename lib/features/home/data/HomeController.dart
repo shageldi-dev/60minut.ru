@@ -80,6 +80,8 @@ class HomeController extends ChangeNotifier {
   List<SearchResult> searchMetros = [];
   List<SearchResult> searchHotels = [];
   List<SearchResult> searchRooms = [];
+  List<Hotels?> allHotels = [];
+
   bool searchLoading = false;
 
   void clearFilter() {
@@ -708,94 +710,93 @@ class HomeController extends ChangeNotifier {
   }
 
 
-  void onShortFilterPressed(int filterIndex) {
-    selectedFilterIndex = filterIndex;
-    notifyListeners();
-    // Call the function to update data in HomePartPage
-    updateFilteredHotels();
-  }
+  // void onShortFilterPressed(int filterIndex) {
+  //   selectedFilterIndex = filterIndex;
+  //   notifyListeners();
+  //   // Call the function to update data in HomePartPage
+  //   updateFilteredHotels();
+  // }
 
-  List<Hotels?> allHotels = [];
- final List<Hotels?> filteredHotels = [];
+ //final List<Hotels?> filteredHotels = [];
   //List<String> shortFilter = [];
-  int? selectedFilterIndex = -1;
+ // int? selectedFilterIndex = -1;
   //List<Collection> collectionFilter = [];
-  Map<String, Collection>?  collection;
+//  Map<String, Collection>?  collection;
 
-  void fetchShortFilters() async {
-    final connectivityResult = await (Connectivity().checkConnectivity());
-    if (connectivityResult == ConnectivityResult.none) {
-      return;
-    }
-
-    hotelLoading = true;
-
-    String url = Api.baseUrl + ApiEndPoints.mesyasOtel;
-
-    try {
-      final response =
-      await apiUtils.get(url: url);
-
-        if (response != null) {
-          romantic = Romantic.fromMap(response.data);
-           collection = romantic!.collections;
-            print(collection);
-          // romantic!.collections!.keys.map((e) => shortFilter.add(e));
-
-
-          hotelLoading = false;
-          notifyListeners();
-        }
-
-        //print(response.statusCode);
-
-    } catch (e) {
-      print(e);
-    }
-  }
-  void updateFilteredHotels() {
-    if (hotel!.hotels == null) {
-      return;
-    }
-
-    switch (selectedFilterIndex) {
-      case -1:
-      filteredHotels.addAll(allHotels);
-          break;
-      case 0:
-      var data = collection![selectedFilterIndex.toString()];
-
-      var rooms = data!.rooms;
-      filteredHotels.clear();
-      rooms?.forEach((roomKey, roomValue) {
-        filteredHotels.add(roomValue);
-      });
-        break;
-      case 1:
-        var data = collection![selectedFilterIndex.toString()];
-        var rooms = data!.rooms;
-        filteredHotels.clear();
-        rooms?.forEach((roomKey, roomValue) {
-          filteredHotels.add(roomValue);
-        }); //.where((hotel) => hotel.availableForHour).toList();
-        break;
-      case 2:
-        var data = collection![selectedFilterIndex.toString()];
-        var rooms = data!.rooms;
-        filteredHotels.clear();
-        rooms?.forEach((roomKey, roomValue) {
-          filteredHotels.add(roomValue);
-        }); //.where((hotel) => hotel.hasJacuzzi).toList();
-        break;
-      // Add more cases for other filters as needed
-      default:
-        filteredHotels.addAll(allHotels);
-        break;
-    }
-
-    // Notify listeners that the state has changed
-    notifyListeners();
-  }
+  // void fetchShortFilters() async {
+  //   final connectivityResult = await (Connectivity().checkConnectivity());
+  //   if (connectivityResult == ConnectivityResult.none) {
+  //     return;
+  //   }
+  //
+  //   hotelLoading = true;
+  //
+  //   String url = Api.baseUrl + ApiEndPoints.mesyasOtel;
+  //
+  //   try {
+  //     final response =
+  //     await apiUtils.get(url: url);
+  //
+  //       if (response != null) {
+  //         romantic = Romantic.fromMap(response.data);
+  //          collection = romantic!.collections;
+  //           print(collection);
+  //         // romantic!.collections!.keys.map((e) => shortFilter.add(e));
+  //
+  //
+  //         hotelLoading = false;
+  //         notifyListeners();
+  //       }
+  //
+  //       //print(response.statusCode);
+  //
+  //   } catch (e) {
+  //     print(e);
+  //   }
+  // }
+  // void updateFilteredHotels() {
+  //   if (hotel!.hotels == null) {
+  //     return;
+  //   }
+  //
+  //   switch (selectedFilterIndex) {
+  //     case -1:
+  //     filteredHotels.addAll(allHotels);
+  //         break;
+  //     case 0:
+  //     var data = collection![selectedFilterIndex.toString()];
+  //
+  //     var rooms = data!.rooms;
+  //     filteredHotels.clear();
+  //     rooms?.forEach((roomKey, roomValue) {
+  //       filteredHotels.add(roomValue);
+  //     });
+  //       break;
+  //     case 1:
+  //       var data = collection![selectedFilterIndex.toString()];
+  //       var rooms = data!.rooms;
+  //       filteredHotels.clear();
+  //       rooms?.forEach((roomKey, roomValue) {
+  //         filteredHotels.add(roomValue);
+  //       }); //.where((hotel) => hotel.availableForHour).toList();
+  //       break;
+  //     case 2:
+  //       var data = collection![selectedFilterIndex.toString()];
+  //       var rooms = data!.rooms;
+  //       filteredHotels.clear();
+  //       rooms?.forEach((roomKey, roomValue) {
+  //         filteredHotels.add(roomValue);
+  //       }); //.where((hotel) => hotel.hasJacuzzi).toList();
+  //       break;
+  //     // Add more cases for other filters as needed
+  //     default:
+  //       filteredHotels.addAll(allHotels);
+  //       break;
+  //   }
+  //
+  //   // Notify listeners that the state has changed
+  //   notifyListeners();
+  // }
 
 
   void contactUs(String name, String phone, String text, String whatsapp,

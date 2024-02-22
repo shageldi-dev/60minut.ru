@@ -27,9 +27,9 @@ class ShortFilter extends StatelessWidget {
             //       backgroundColor: MaterialStateProperty.all(const Color(0xFFE3E3E3))
             //   ), child: Text(element, style: const TextStyle(color: Colors.black, fontSize: 15),),
             // )).toList(),
-            MainButton(element: 'до 700', press: () => controller.onShortFilterPressed(0)),
-            MainButton(element: 'На час', press: () =>  controller.onShortFilterPressed(1)),
-            MainButton(element: 'С джакузи', press: () => controller.onShortFilterPressed(2)),
+            MainButton(element: 'до 700', press: () => (){}),
+            MainButton(element: 'На час', press: () =>  (){}),
+            MainButton(element: 'С джакузи', press: () => (){}),
             MainButton(element: 'Еще', press: () => (){}),
           ],
         ),

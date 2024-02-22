@@ -29,7 +29,6 @@ class _HomePartPageState extends State<HomePartPage> {
       path = ApiEndPoints.romantic;
     }
     controller.fetchHotels(path);
-    controller.fetchShortFilters();
 
     super.initState();
   }
@@ -61,7 +60,7 @@ class _HomePartPageState extends State<HomePartPage> {
                   if (controller.hotelLoading) {
                     return const CircularProgressIndicator();
                   }
-                  return HomeList(items: controller.filteredHotels);
+                  return HomeList(items: controller.allHotels);
 
                   // return HomeList(items: _controller.filteredHotels.sublist(0, _controller.filteredHotels.length));
                 }),

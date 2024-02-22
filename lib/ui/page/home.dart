@@ -25,8 +25,6 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     controller.fetchDataFromApi();
-    /// called here
-    controller.fetchShortFilters();
 
     super.initState();
   }
@@ -45,14 +43,14 @@ class _HomePageState extends State<HomePage> {
             builder: (BuildContext context, Widget? child) {
               return HomeActions(result: controller.result);
             }),
-        const SizedBox(
-          height: 16,
-        ),
-        ListenableBuilder(
-            listenable: controller,
-            builder: (BuildContext context, Widget? child) {
-              return ShortFilter(controller: controller);
-            }),
+        // const SizedBox(
+        //   height: 16,
+        // ),
+        // ListenableBuilder(
+        //     listenable: controller,
+        //     builder: (BuildContext context, Widget? child) {
+        //       return ShortFilter(controller: controller);
+        //     }),
 
         // ShortFilter(onPressed: (val) {}),
         const SizedBox(
