@@ -37,7 +37,7 @@ final router = GoRouter(
         GoRoute(
           path: '/all',
           parentNavigatorKey: shellNavigatorKey,
-          builder: (context, state) => const AllHotelsPage(),
+          builder: (context, state) =>  const HomePage(child: AllHotelsPage(),)
         ),
         GoRoute(
           path: '/',
@@ -63,12 +63,12 @@ final router = GoRouter(
         GoRoute(
           path: '/like',
           parentNavigatorKey: shellNavigatorKey,
-          builder: (context, state) => LikePage(),
+          builder: (context, state) => const LikePage(),
         ),
         GoRoute(
           path: '/top20',
           parentNavigatorKey: shellNavigatorKey,
-          builder: (context, state) => Top20tPage(),
+          builder: (context, state) => const Top20tPage(),
         ),
         GoRoute(
           path: '/filtered/:title/:id',
@@ -81,12 +81,12 @@ final router = GoRouter(
         GoRoute(
           path: '/mesyasRoom',
           parentNavigatorKey: shellNavigatorKey,
-          builder: (context, state) => MesyasRoomPage(),
+          builder: (context, state) => const MesyasRoomPage(),
         ),
         GoRoute(
           path: '/mesyasOtel',
           parentNavigatorKey: shellNavigatorKey,
-          builder: (context, state) => MesyasOtelPage(),
+          builder: (context, state) => const MesyasOtelPage(),
         ),
         GoRoute(
           path: '/romantic',

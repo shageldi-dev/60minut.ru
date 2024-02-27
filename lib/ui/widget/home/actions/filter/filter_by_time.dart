@@ -18,7 +18,7 @@ class FilterByTime extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: Wrap(
           crossAxisAlignment: WrapCrossAlignment.center,
-          spacing: 26,
+          spacing: 21,
           runSpacing: 12,
           children: controller.result!.suggest!.values!
               .map((e) => AppButton(removeAllHtmlTags("${e.title}"), () {

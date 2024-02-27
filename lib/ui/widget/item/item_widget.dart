@@ -77,7 +77,7 @@ class _ItemWidgetState extends State<ItemWidget> {
       child: Card(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
         child: Padding(
-          padding: const EdgeInsets.only(right: 16), //have to be 0
+          padding: const EdgeInsets.only(right: 14), //have to be 0
           child: SizedBox(
             height: 140,
             child: Row(
@@ -86,13 +86,13 @@ class _ItemWidgetState extends State<ItemWidget> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(
-                  width: 125, //120,
+                  width: 117, //120,
                   height: 140,
                   child: Stack(
                     children: [
                       Positioned.fill(
                           child: CachedNetworkImage(
-                        width: 120,
+                        width: 117,
                         height: 140,
                         imageUrl: "${IMG_BASE_URL}${widget.hotel.img}",
                         imageBuilder: (context, imageProvider) => Container(
@@ -107,7 +107,7 @@ class _ItemWidgetState extends State<ItemWidget> {
                           ),
                         ),
                         placeholder: (context, url) => SizedBox(
-                          width: 120,
+                          width: 117,
                           height: 140,
                           child: Shimmer.fromColors(
                             baseColor: Colors.grey,
@@ -151,7 +151,7 @@ class _ItemWidgetState extends State<ItemWidget> {
                   ),
                 ),
                 const SizedBox(
-                  width: 12,
+                  width: 8,
                 ),
                 Flexible(
                   flex: 1,
@@ -159,7 +159,7 @@ class _ItemWidgetState extends State<ItemWidget> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const SizedBox(
-                        height: 12,
+                        height: 10,
                       ),
                       Text(
                         "${widget.hotel.name}",
@@ -241,7 +241,7 @@ class _ItemWidgetState extends State<ItemWidget> {
                                 maxLines: 1,
                               ),
                               const SizedBox(
-                                width: 8,
+                                width: 6,
                               ),
                               Text(
                                 "от ${widget.hotel.minHour ?? ''} ч",

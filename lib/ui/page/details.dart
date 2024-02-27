@@ -416,7 +416,7 @@ class _DetailsWidgetState extends State<DetailsWidget>
 
             ///list
             Container(
-              height: 25,
+              height:widget.hotelDetails.hotel!.metro!.length* 25,
               child: ListView.builder(
                   itemCount: widget.hotelDetails.hotel!.metro!.length,
                   itemBuilder: (context, index) {

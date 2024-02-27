@@ -87,7 +87,7 @@ class _RoomItemState extends State<RoomItem> {
                         ),
                       ),
                     ),
-                    errorWidget: (context, url, error) => Icon(Icons.error),
+                    errorWidget: (context, url, error) => const Icon(Icons.error),
                   ),
                 );
               },
@@ -133,7 +133,7 @@ class _RoomItemState extends State<RoomItem> {
                 child: GestureDetector(
                   onTap: () => {
                     controller.animateToPage((controller.page!.round() + 1),
-                        duration: Duration(microseconds: 500),
+                        duration: const Duration(microseconds: 500),
                         curve: Curves.linear)
                   },
                   child: Opacity(
@@ -162,7 +162,7 @@ class _RoomItemState extends State<RoomItem> {
                 child: GestureDetector(
                   onTap: () => {
                     controller.animateToPage((controller.page!.round() - 1),
-                        duration: Duration(microseconds: 500),
+                        duration: const Duration(microseconds: 500),
                         curve: Curves.linear)
                   },
                   child: Opacity(
@@ -205,7 +205,7 @@ class _RoomItemState extends State<RoomItem> {
                 Row(
                   children: [
                     Text(
-                      widget.roomModel.hourPrice! ?? '',
+                      '${widget.roomModel.hourPrice!}p'?? '',
                       //widget.roomModel.hourPrice![widget.index] !=null ?widget.roomModel.hourPrice![widget.index] ??'':"",
                       style: const TextStyle(
                         color: Color(0xFF2F2F2F),
@@ -232,7 +232,32 @@ class _RoomItemState extends State<RoomItem> {
                 Row(
                   children: [
                     Text(
-                      widget.roomModel.hour3Price ?? '',
+                      '${widget.roomModel.hour3Price}p' ?? '',
+                      style: const TextStyle(
+                        color: Color(0xFF2F2F2F),
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                     Text(
+                      '3 ч',
+                      style: const TextStyle(
+                        color: Color(0xFF2F2F2F),
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    )
+                  ],
+                ),
+                SizedBox(height: 6),
+                Row(
+                  children: [
+                    Text(
+                      '${widget.roomModel.nightPrice!}p' ?? '',
+                      //widget.roomModel.hourPrice![widget.index] !=null ?widget.roomModel.hourPrice![widget.index] ??'':"",
                       style: const TextStyle(
                         color: Color(0xFF2F2F2F),
                         fontSize: 16,
@@ -243,7 +268,32 @@ class _RoomItemState extends State<RoomItem> {
                       width: 10,
                     ),
                     const Text(
-                      '3 ч',
+                      'ночь с 21:00 до 10',
+                      style: TextStyle(
+                        color: Color(0xFF2F2F2F),
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    )
+                  ],
+                ),
+                SizedBox(height: 6),
+                Row(
+                  children: [
+                    Text(
+                      '${widget.roomModel.dayPrice!}p' ?? '',
+                      //widget.roomModel.hourPrice![widget.index] !=null ?widget.roomModel.hourPrice![widget.index] ??'':"",
+                      style: const TextStyle(
+                        color: Color(0xFF2F2F2F),
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    const Text(
+                      'сутки',
                       style: TextStyle(
                         color: Color(0xFF2F2F2F),
                         fontSize: 16,
@@ -280,7 +330,7 @@ class _RoomItemState extends State<RoomItem> {
                 Text(
                   '${widget.roomModel.images!.keys.map((e) => widget.roomModel.images![e]!.title)}' ??
                       'Круглосуточное заселение',
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Color(0xFF2F2F2F),
                     fontSize: 15,
                     fontWeight: FontWeight.w400,
@@ -304,8 +354,8 @@ class _RoomItemState extends State<RoomItem> {
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(6)),
                       ),
-                      child: const Text(
-                        'от 3ч',
+                      child:  Text(
+                        'от ${widget.roomModel.minBooking} ч',
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 15,

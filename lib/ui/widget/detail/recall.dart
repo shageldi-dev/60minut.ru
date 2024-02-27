@@ -67,24 +67,24 @@ class _RecallState extends State<Recall> {
                     ],
                   ),
                 ),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Expanded(
-                      child: Text(
-                        'на отель “${widget.hotelDetails.hotel!.name!}”',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: Color(0xFFE50914),
-                          fontSize: 22,
-                          fontFamily: 'MullerNarrow',
-                          fontWeight: FontWeight.w300,
-                        ),
-                      ),
-                    )
-                  ],
-                ),
+                // Row(
+                //   crossAxisAlignment: CrossAxisAlignment.center,
+                //   mainAxisAlignment: MainAxisAlignment.center,
+                //   children: [
+                //     Expanded(
+                //       child: Text(
+                //         'на отель “${widget.hotelDetails.hotel!.name!}”',
+                //         textAlign: TextAlign.center,
+                //         style: TextStyle(
+                //           color: Color(0xFFE50914),
+                //           fontSize: 22,
+                //           fontFamily: 'MullerNarrow',
+                //           fontWeight: FontWeight.w300,
+                //         ),
+                //       ),
+                //     )
+                //   ],
+                // ),
                 Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Material(

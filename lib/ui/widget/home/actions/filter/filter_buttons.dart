@@ -23,7 +23,7 @@ class _FilterButtonsState extends State<FilterButtons> {
             child: Wrap(
               crossAxisAlignment: WrapCrossAlignment.start,
               alignment: WrapAlignment.start,
-              spacing: 22.5,
+              spacing: 12.5,
               children: widget.buttons
                   .map(
                     (e) => AppButton(e, () {
@@ -62,7 +62,7 @@ class _KFilterButtonState extends State<KFilterButton> {
             child: Wrap(
               crossAxisAlignment: WrapCrossAlignment.start,
               alignment: WrapAlignment.start,
-              spacing: 26,
+              spacing: 32,
               children: widget.buttons
                   .map((e) => AppButton(e, () {
                         print(widget.values);

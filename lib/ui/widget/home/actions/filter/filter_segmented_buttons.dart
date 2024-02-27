@@ -32,7 +32,7 @@ class _FilterSegmentedButtonsState extends State<FilterSegmentedButtons> {
     return Padding(
       padding: const EdgeInsets.only(left: 16.0, right: 16.0, bottom: 16.0),
       child: Container(
-        alignment: Alignment.centerLeft,
+        alignment: Alignment.center,
         clipBehavior: Clip.antiAlias,
         decoration: ShapeDecoration(
           color: Colors.white,
@@ -67,7 +67,7 @@ class _FilterSegmentedButtonsState extends State<FilterSegmentedButtons> {
               side: MaterialStateProperty.all(BorderSide.none),
               shape: MaterialStateProperty.all(RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(8.0)))),
-              padding: MaterialStateProperty.all(EdgeInsets.all(8.0)),
+              padding: MaterialStateProperty.all(EdgeInsets.all(6.0)),
               backgroundColor: MaterialStateProperty.resolveWith<Color>(
                 (Set<MaterialState> states) {
                   if (states.contains(MaterialState.selected)) {
