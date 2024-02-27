@@ -1,22 +1,26 @@
-
 import 'package:booking/features/home/data/HomeController.dart';
 import 'package:booking/features/home/models/filter_options.dart';
 import 'package:booking/ui/widget/buttons.dart';
+import 'package:booking/ui/widget/home/actions/filter/filter_by_time.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import 'actions/filter/filter_dialog.dart';
+
 /// 30 -33
-class ShortFilter extends StatelessWidget {
-  const ShortFilter({super.key, required this.controller});
+class ShortFilter extends StatefulWidget {
+  const ShortFilter({super.key});
 
- // final void Function(String) onPressed;
- final HomeController controller;
+  @override
+  State<ShortFilter> createState() => _ShortFilterState();
+}
 
+class _ShortFilterState extends State<ShortFilter> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Container(
-        padding: const EdgeInsets.only(left: 16,right: 16),
+        padding: const EdgeInsets.only(left: 16, right: 16),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -27,14 +31,30 @@ class ShortFilter extends StatelessWidget {
             //       backgroundColor: MaterialStateProperty.all(const Color(0xFFE3E3E3))
             //   ), child: Text(element, style: const TextStyle(color: Colors.black, fontSize: 15),),
             // )).toList(),
-            MainButton(element: 'до 700', press: () => (){}),
-            MainButton(element: 'На час', press: () =>  (){}),
-            MainButton(element: 'С джакузи', press: () => (){}),
-            MainButton(element: 'Еще', press: () => (){}),
+            AppButton("до 700", () {
+              context.push(
+                "/filtered/Недорогие до 700 ₽/Недорогие до 700 ₽",
+              );
+            }),
+            AppButton("На час", () {
+              context.push(
+                "/filtered/Номер на час/Номер на час",
+              );
+            }),
+            AppButton("С джакузи", () {
+              context.push(
+                "/filtered/С джакузи/С джакузи",
+              );
+            }),
+            AppButton("Еще", () {
+              showDialog(
+                  context: context,
+                  builder: (BuildContext context) =>
+                      FilterDialog(result: controller.result));
+            }),
           ],
         ),
       ),
     );
   }
 }
-

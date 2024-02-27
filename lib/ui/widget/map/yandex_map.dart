@@ -169,9 +169,12 @@ class _ClusterizedPlacemarkCollectionExampleState
                                 //   Hotels find = widget.dataController.filteredHotels[0];
                                 return Dialog(
                                   insetPadding: EdgeInsets.all(8),
-                                 // clipBehavior: Clip.antiAlias,
+                                  // clipBehavior: Clip.antiAlias,
                                   elevation: 0,
-                                  child: ItemWidget(hotel: widget.dataController.allHotels[i]!),
+                                  child: ItemWidget(
+                                    hotel: widget.dataController.allHotels[i]!,
+                                    isRoom: false,
+                                  ),
                                 );
                               }).then((_) {
                             isDialogOpen = false;

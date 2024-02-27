@@ -15,7 +15,10 @@ class MesyasOtelList extends StatelessWidget {
       itemCount: items.length,
       itemBuilder: (context, index) {
         return ListTile(
-          title: ItemWidget(hotel: items[index]!,),
+          title: ItemWidget(
+            hotel: items[index]!,
+            isRoom: false,
+          ),
         );
       },
     );

@@ -16,6 +16,7 @@ import '../../../core/api_end_points.dart';
 import '../../../core/api_utils.dart';
 
 final List<String> globalMainPageMetroIdList = [];
+
 /// 710 - 800 nji setir aralyk HomeController de
 /// home, ShortFilter, home_part sularam uytgedildi acsan yokarsynda nireleri uytgedileninin sertiri commentda yazylan
 String globalMainPageMetroId = '';
@@ -33,6 +34,7 @@ class HomeController extends ChangeNotifier {
 
   final List<Hotels?> mesyasRooms = [];
   Romantic? romantic;
+  Romantic? filteredHotels;
 
   //Collection? romantic;
   HotelDetails? hotelDetails;
@@ -58,6 +60,7 @@ class HomeController extends ChangeNotifier {
   String sort = 'price_asc';
   String _path = ApiEndPoints.hotels;
   String? q = '';
+  String? msk_city = '';
   String? priceType = null;
   int? priceFrom = null;
   int? priceTo = null;
@@ -343,12 +346,22 @@ class HomeController extends ChangeNotifier {
 
   var selectedDrawerCity;
   String? selectedDrawerCityId;
+  bool isCity = true;
   DrawerCityModel? drawerCityModel;
 
-  void selectDrawerCity(var val) {
+  void selectDrawerCity(var val, bool val2) {
     selectedDrawerCity = val;
+    isCity = val2;
     selectedDrawerCityId = val.id;
     globalDrawerMetroId = val.id;
+    notifyListeners();
+  }
+
+  void clearCity() {
+    selectedDrawerCity = null;
+    isCity = true;
+    selectedDrawerCityId = null;
+    globalDrawerMetroId = "";
     notifyListeners();
   }
 
@@ -452,6 +465,11 @@ class HomeController extends ChangeNotifier {
     fetchHotels(_path);
   }
 
+  void setMskCity(String? value) {
+    msk_city = value;
+    fetchHotels(_path);
+  }
+
   void setPriceTo(int? value) {
     priceTo = value;
     fetchHotels(_path);
@@ -522,6 +540,27 @@ class HomeController extends ChangeNotifier {
     fetchHotels(_path);
   }
 
+  void getFilteredHotels(Function(Romantic? result) onDone) async {
+    final connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.none) {
+      return;
+    }
+
+    String url = Api.baseUrl + ApiEndPoints.romantic;
+    Map<String, dynamic>? queryParameters = {};
+
+    try {
+      final response =
+          await apiUtils.get(url: url, queryParameters: queryParameters);
+      if (response != null) {
+        filteredHotels = Romantic.fromMap(response.data);
+
+        notifyListeners();
+        onDone(filteredHotels);
+      }
+    } catch (err) {}
+  }
+
   void fetchHotels(String path) async {
     this._path = path;
     final connectivityResult = await (Connectivity().checkConnectivity());
@@ -581,6 +620,10 @@ class HomeController extends ChangeNotifier {
       queryParameters['rating'] = rating;
     }
 
+    if (msk_city != null) {
+      queryParameters['msk_city'] = msk_city;
+    }
+
     if (r != null && r!.isNotEmpty) {
       queryParameters['r'] = r;
     }
@@ -630,8 +673,7 @@ class HomeController extends ChangeNotifier {
           rooms?.forEach((roomKey, roomValue) {
             allHotels.add(roomValue);
           });
-         // romantic!.collections!.keys.map((e) => shortFilter.add(e));
-
+          // romantic!.collections!.keys.map((e) => shortFilter.add(e));
 
           hotelLoading = false;
           notifyListeners();
@@ -644,7 +686,7 @@ class HomeController extends ChangeNotifier {
     }
   }
 
-   fetchMesyasRooms() async {
+  fetchMesyasRooms() async {
     final connectivityResult = await (Connectivity().checkConnectivity());
     if (connectivityResult == ConnectivityResult.none) {
       return;
@@ -659,20 +701,24 @@ class HomeController extends ChangeNotifier {
       setApiPath(ApiEndPoints.hotels);
       if (response != null) {
         roomMesyasaModel = OtelMesyasaModel.fromJson(response.data);
-        otelMesyasaId = roomMesyasaModel!.hotel!.id;//.hotel!.hotelId;
-        roomMesyasaId = roomMesyasaModel!.roomId;//.hotel!.hotelId;
+        otelMesyasaId = roomMesyasaModel!.hotel!.id; //.hotel!.hotelId;
+        roomMesyasaId = roomMesyasaModel!.roomId; //.hotel!.hotelId;
         mesyasRooms.add(Hotels(
-            id: roomMesyasaModel!.room!.hotelId,
-            hotelId: roomMesyasaModel!.roomId,
-            name: roomMesyasaModel!.room!.name,
-            img: roomMesyasaModel!.room!.images!.values.first.img,
-            metroName: roomMesyasaModel!.hotel!.metroName!,///yok
-            walk: roomMesyasaModel!.hotel!.walk,///yok
-            minHour: roomMesyasaModel!.room!.minBooking,
-            price: roomMesyasaModel!.room!.hourPrice,
-            // priceHour: otelMesyasaModel!.room!.hourPrice,
-            phone: roomMesyasaModel!.hotel!.phone,
-            priceTypeText: roomMesyasaModel!.hotel!.priceTypeText,
+          id: roomMesyasaModel!.room!.hotelId,
+          hotelId: roomMesyasaModel!.roomId,
+          name: roomMesyasaModel!.room!.name,
+          img: roomMesyasaModel!.room!.images!.values.first.img,
+          metroName: roomMesyasaModel!.hotel!.metroName!,
+
+          ///yok
+          walk: roomMesyasaModel!.hotel!.walk,
+
+          ///yok
+          minHour: roomMesyasaModel!.room!.minBooking,
+          price: roomMesyasaModel!.room!.hourPrice,
+          // priceHour: otelMesyasaModel!.room!.hourPrice,
+          phone: roomMesyasaModel!.hotel!.phone,
+          priceTypeText: roomMesyasaModel!.hotel!.priceTypeText,
         ));
         mesyasLoading = false;
         notifyListeners();
@@ -709,7 +755,6 @@ class HomeController extends ChangeNotifier {
     // }
   }
 
-
   // void onShortFilterPressed(int filterIndex) {
   //   selectedFilterIndex = filterIndex;
   //   notifyListeners();
@@ -717,9 +762,9 @@ class HomeController extends ChangeNotifier {
   //   updateFilteredHotels();
   // }
 
- //final List<Hotels?> filteredHotels = [];
+  //final List<Hotels?> filteredHotels = [];
   //List<String> shortFilter = [];
- // int? selectedFilterIndex = -1;
+  // int? selectedFilterIndex = -1;
   //List<Collection> collectionFilter = [];
 //  Map<String, Collection>?  collection;
 
@@ -797,7 +842,6 @@ class HomeController extends ChangeNotifier {
   //   // Notify listeners that the state has changed
   //   notifyListeners();
   // }
-
 
   void contactUs(String name, String phone, String text, String whatsapp,
       String viber, String sms, Function onSuccess, Function onError) async {

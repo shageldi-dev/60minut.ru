@@ -16,6 +16,7 @@ class HomeList extends StatelessWidget {
         return ListTile(
           title: ItemWidget(
             hotel: items[index]!,
+            isRoom: false,
           ),
         );
       },

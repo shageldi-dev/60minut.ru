@@ -1,5 +1,13 @@
+import 'package:booking/features/home/data/HomeController.dart';
 import 'package:booking/ui/theme/color.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+
+String removeAllHtmlTags(String htmlText) {
+  RegExp exp = RegExp(r"<[^>]*>", multiLine: true, caseSensitive: true);
+
+  return htmlText.replaceAll(exp, '');
+}
 
 class FilterByTime extends StatelessWidget {
   const FilterByTime({super.key});
@@ -9,27 +17,50 @@ class FilterByTime extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Wrap(
-        crossAxisAlignment: WrapCrossAlignment.center,
-        spacing: 26,
-        runSpacing: 12,
-        children: [
-          Text(
-            'Часто ищут:',
-            style: TextStyle(
-              color: Colors.black,
-              fontSize: 15,
-              fontWeight: FontWeight.w400,
-            ),
+          crossAxisAlignment: WrapCrossAlignment.center,
+          spacing: 26,
+          runSpacing: 12,
+          children: controller.result!.suggest!.values!
+              .map((e) => AppButton(removeAllHtmlTags("${e.title}"), () {
+                    context.pop();
+                    context.push(
+                      "/filtered/${removeAllHtmlTags("${e.title}")}/${removeAllHtmlTags("${e.title}")}",
+                    );
+                  }))
+              .toList()
+          // [
+          //   Text(
+          //     'Часто ищут:',
+          //     style: TextStyle(
+          //       color: Colors.black,
+          //       fontSize: 15,
+          //       fontWeight: FontWeight.w400,
+          //     ),
+          //   ),
+          //   AppButton("Недорогие до 700₽", () {
+          //     context.pop();
+          //     context.push(
+          //       "/filtered/Недорогие до 700 ₽/Недорогие до 700 ₽",
+          //     );
+          //   }),
+          //   AppButton("Люкс от 1200₽", () {
+          //       context.pop();
+          //     context.push(
+          //       "/filtered/Люкс от 1200 ₽/Люкс от 1200 ₽",
+          //     );
+          //   }),
+          //   AppButton("Номер на час", () {
+          //      context.pop();
+          //     context.push(
+          //       "/filtered/Номер на час/Номер на час",
+          //     );
+          //   }),
+          //   AppButton("С джакузи", () {}),
+          //   AppButton("С сауной", () {}),
+          //   AppButton("В центре", () {}),
+          //   AppButton("Рядом с вокзалами", () {}),
+          // ],
           ),
-          AppButton("Недорогие до 700₽", () {}),
-          AppButton("Люкс от 1200₽", () {}),
-          AppButton("Номер на час", () {}),
-          AppButton("С джакузи", () {}),
-          AppButton("С сауной", () {}),
-          AppButton("В центре", () {}),
-          AppButton("Рядом с вокзалами", () {}),
-        ],
-      ),
     );
   }
 }

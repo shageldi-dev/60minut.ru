@@ -5,8 +5,8 @@ import 'item/item_widget.dart';
 
 class Top20List extends StatelessWidget {
   final List<Hotels?> items;
-  const Top20List({super.key, required this.items});
 
+  const Top20List({super.key, required this.items});
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
@@ -15,7 +15,10 @@ class Top20List extends StatelessWidget {
       itemCount: items.length,
       itemBuilder: (context, index) {
         return ListTile(
-          title: ItemWidget(hotel: items[index]!,),
+          title: ItemWidget(
+            hotel: items[index]!,
+            isRoom: true,
+          ),
         );
       },
     );

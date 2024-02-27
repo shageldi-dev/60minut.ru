@@ -13,12 +13,13 @@ class AppDrawer extends StatelessWidget {
   final HomeController controller;
   @override
   Widget build(BuildContext context) {
-    return ListenableBuilder(listenable: controller, builder: (context, Widget? child){
-
-      return SizedBox(
-        width: double.infinity,
-        child: Drawer(
-            child: Container(
+    return ListenableBuilder(
+        listenable: controller,
+        builder: (context, Widget? child) {
+          return SizedBox(
+            width: double.infinity,
+            child: Drawer(
+                child: Container(
               decoration: const BoxDecoration(
                 image: DecorationImage(
                     image: AssetImage("assets/icons/drawer_bg.png"),
@@ -51,7 +52,7 @@ class AppDrawer extends StatelessWidget {
                               child: Wrap(
                                 alignment: WrapAlignment.center,
                                 //mainAxisAlignment: MainAxisAlignment.end,
-                                children: [DrawerDropdown(controller: controller,)],
+                                children: [DrawerDropdown()],
                               ),
                             )),
                         IconButton(
@@ -63,20 +64,18 @@ class AppDrawer extends StatelessWidget {
                             ))
                       ],
                     ),
-                     AppDrawerButton(
+                    AppDrawerButton(
                       text: "ОТЕЛЬ МЕСЯЦА",
                       image: "assets/icons/Cup.svg",
-                      onClick: (){
+                      onClick: () {
                         context.push("/mesyasOtel");
-
                       },
                     ),
-                     AppDrawerButton(
+                    AppDrawerButton(
                       text: "НОМЕР МЕСЯЦА",
                       image: "assets/icons/bed.svg",
-                      onClick: (){
+                      onClick: () {
                         context.push("/mesyasRoom");
-
                       },
                     ),
                     AppDrawerButton(
@@ -84,7 +83,8 @@ class AppDrawer extends StatelessWidget {
                       image: "assets/icons/HeartStatus.svg",
                       onClick: () {
                         // controller.apiPath = ApiEndPoints.romantic;
-                        locator<HomeController>().setApiPath(ApiEndPoints.romantic);
+                        locator<HomeController>()
+                            .setApiPath(ApiEndPoints.romantic);
                         // controller.hotelLoading = true;
                         context.push(
                           "/romantic",
@@ -115,7 +115,8 @@ class AppDrawer extends StatelessWidget {
                           },
                           isScrollControlled: true,
                           shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(12))),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(12))),
                         )
                       },
                     ),
@@ -131,7 +132,8 @@ class AppDrawer extends StatelessWidget {
                           },
                           isScrollControlled: true,
                           shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(12))),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(12))),
                         )
                       },
                     ),
@@ -139,7 +141,7 @@ class AppDrawer extends StatelessWidget {
                 ),
               ),
             )),
-      );
-    });
+          );
+        });
   }
 }

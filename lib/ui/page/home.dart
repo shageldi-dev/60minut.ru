@@ -43,16 +43,16 @@ class _HomePageState extends State<HomePage> {
             builder: (BuildContext context, Widget? child) {
               return HomeActions(result: controller.result);
             }),
-        // const SizedBox(
-        //   height: 16,
-        // ),
+        const SizedBox(
+          height: 16,
+        ),
         // ListenableBuilder(
         //     listenable: controller,
         //     builder: (BuildContext context, Widget? child) {
         //       return ShortFilter(controller: controller);
         //     }),
 
-        // ShortFilter(onPressed: (val) {}),
+        ShortFilter(),
         const SizedBox(
           height: 16,
         ),

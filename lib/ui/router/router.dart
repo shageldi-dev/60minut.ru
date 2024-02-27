@@ -2,6 +2,7 @@ import 'package:booking/di.dart';
 import 'package:booking/features/home/data/HomeController.dart';
 import 'package:booking/ui/page/all_hotels.dart';
 import 'package:booking/ui/page/details.dart';
+import 'package:booking/ui/page/filteredHotels.dart';
 import 'package:booking/ui/page/home.dart';
 import 'package:booking/ui/page/like_page.dart';
 import 'package:booking/ui/page/main_page.dart';
@@ -70,6 +71,14 @@ final router = GoRouter(
           builder: (context, state) => Top20tPage(),
         ),
         GoRoute(
+          path: '/filtered/:title/:id',
+          parentNavigatorKey: shellNavigatorKey,
+          builder: (context, state) => FilteredHotelsPage(
+            title: state.pathParameters['title']!,
+            id: state.pathParameters['id']!,
+          ),
+        ),
+        GoRoute(
           path: '/mesyasRoom',
           parentNavigatorKey: shellNavigatorKey,
           builder: (context, state) => MesyasRoomPage(),
@@ -77,7 +86,7 @@ final router = GoRouter(
         GoRoute(
           path: '/mesyasOtel',
           parentNavigatorKey: shellNavigatorKey,
-          builder: (context, state) =>  MesyasOtelPage(),
+          builder: (context, state) => MesyasOtelPage(),
         ),
         GoRoute(
           path: '/romantic',

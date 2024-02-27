@@ -71,7 +71,7 @@ class _FilterDialogState extends State<FilterDialog> {
                               ],
                             ),
                           ),
-                          // const FilterByTime(),
+                          const FilterByTime(),
                           const Divider(),
                           FilterSegmentedButtons(
                             selected: widget.result?.priceType!

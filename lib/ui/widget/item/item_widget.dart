@@ -1,4 +1,3 @@
-
 import 'package:booking/core/api_params.dart';
 import 'package:booking/core/sqlite_service.dart';
 import 'package:booking/features/home/models/favorites.dart';
@@ -13,7 +12,8 @@ import 'package:shimmer/shimmer.dart';
 
 class ItemWidget extends StatefulWidget {
   final Hotels hotel;
-  const ItemWidget({super.key, required this.hotel});
+  final bool isRoom;
+  const ItemWidget({super.key, required this.hotel, required this.isRoom});
 
   @override
   State<ItemWidget> createState() => _ItemWidgetState();
@@ -64,15 +64,20 @@ class _ItemWidgetState extends State<ItemWidget> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => {
-        context.pop(),
-        context.push("/details/${widget.hotel.id}"),
-        print(widget.hotel.id! + '---------------------------------------------')
+      onTap: () {
+        // try {
+        //   context.pop();
+        // } catch (err) {}
+        if (widget.isRoom) {
+          context.push("/details/${widget.hotel.hotelId}");
+        } else {
+          context.push("/details/${widget.hotel.id}");
+        }
       },
       child: Card(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
         child: Padding(
-          padding: const EdgeInsets.only(right: 16),//have to be 0
+          padding: const EdgeInsets.only(right: 16), //have to be 0
           child: SizedBox(
             height: 140,
             child: Row(
@@ -81,7 +86,7 @@ class _ItemWidgetState extends State<ItemWidget> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(
-                  width: 125,//120,
+                  width: 125, //120,
                   height: 140,
                   child: Stack(
                     children: [
@@ -117,7 +122,8 @@ class _ItemWidgetState extends State<ItemWidget> {
                             ),
                           ),
                         ),
-                        errorWidget: (context, url, error) => const Icon(Icons.error),
+                        errorWidget: (context, url, error) =>
+                            const Icon(Icons.error),
                       )),
                       Align(
                         alignment: Alignment.topLeft,
@@ -157,8 +163,8 @@ class _ItemWidgetState extends State<ItemWidget> {
                       ),
                       Text(
                         "${widget.hotel.name}",
-                        style:
-                            const TextStyle(fontWeight: FontWeight.w700, fontSize: 17),
+                        style: const TextStyle(
+                            fontWeight: FontWeight.w700, fontSize: 17),
                         maxLines: 2,
                         textAlign: TextAlign.left,
                       ),

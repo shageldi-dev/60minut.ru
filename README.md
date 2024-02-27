@@ -17,6 +17,8 @@ samples, guidance on mobile development, and a full API reference.
 
 https://60minut.ru/api/v1 - документация
 
+https://60minut.ru/api/v1/collections?token=3ji2klgboopkatgmhis3esv6kezfmwkl
+
 https://60minut.ru/api/v1/hotels?token=3ji2klgboopkatgmhis3e… (https://60minut.ru/api/v1/hotels?token=3ji2klgboopkatgmhis3esv6kezfmwkl) - отели на главной
 
 https://60minut.ru/api/v1/hotel?id=2417&token=3ji2klgboopkat… (https://60minut.ru/api/v1/hotel?id=2417&token=3ji2klgboopkatgmhis3esv6kezfmwkl) - отель, в примере De Art 13 на Профсоюзной
