@@ -39,7 +39,7 @@ class _ClusterizedPlacemarkCollectionExample extends StatefulWidget {
 class _ClusterizedPlacemarkCollectionExampleState
     extends State<_ClusterizedPlacemarkCollectionExample> {
   final List<MapObject> mapObjects = [];
-
+  late YandexMapController mcontroller;
   // final int kPlacemarkCount = 500;
   final Random seed = Random();
   final MapObjectId mapObjectId =
@@ -106,6 +106,7 @@ class _ClusterizedPlacemarkCollectionExampleState
                 rotateGesturesEnabled: true,
                 scrollGesturesEnabled: true,
                 onMapCreated: (controller) async {
+                  mcontroller = controller;
                   controller.moveCamera(CameraUpdate.newCameraPosition(
                       const CameraPosition(
                           target: Point(
@@ -225,10 +226,9 @@ class _ClusterizedPlacemarkCollectionExampleState
                     ),
                     SliderTheme(
                       data: SliderTheme.of(context).copyWith(
-
                         trackHeight: 8.0, // Thickness of the slider track
                         thumbShape: const RoundSliderThumbShape(
-                        //  disabledThumbRadius: 0,
+                          //  disabledThumbRadius: 0,
                           enabledThumbRadius: 10, // Size of the slider thumb
                         ),
                         overlayShape: const RoundSliderOverlayShape(
@@ -245,7 +245,7 @@ class _ClusterizedPlacemarkCollectionExampleState
                           max: 20.0,
                           value: 5,
                           onChanged: (double value) {
-                            setState(() {});
+                            mcontroller.moveCamera(CameraUpdate.zoomTo(value));
                           },
                         ),
                       ),
@@ -264,7 +264,6 @@ class _ClusterizedPlacemarkCollectionExampleState
                   ],
                 ),
               ),
-
             ],
           )),
         ]);
