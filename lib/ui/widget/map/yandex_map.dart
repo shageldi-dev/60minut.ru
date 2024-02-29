@@ -89,6 +89,7 @@ class _ClusterizedPlacemarkCollectionExampleState
   }
 
   bool isDialogOpen = false;
+  double _sliderValue = 8.0;
 
   @override
   Widget build(BuildContext context) {
@@ -214,14 +215,11 @@ class _ClusterizedPlacemarkCollectionExampleState
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Card(
-                      child: InkWell(
-                        onTap: () {},
-                        child: Container(
-                          height: 30,
-                          width: 30,
-                          color: Colors.white,
-                          child: const Icon(Icons.add),
-                        ),
+                      child: Container(
+                        height: 30,
+                        width: 30,
+                        color: Colors.white,
+                        child: const Icon(Icons.add),
                       ),
                     ),
                     SliderTheme(
@@ -243,22 +241,22 @@ class _ClusterizedPlacemarkCollectionExampleState
                           inactiveColor: Colors.black12,
                           min: 0.0,
                           max: 20.0,
-                          value: 5,
+                          value: _sliderValue,
                           onChanged: (double value) {
+                            setState(() {
+                              _sliderValue = value;
+                            });
                             mcontroller.moveCamera(CameraUpdate.zoomTo(value));
                           },
                         ),
                       ),
                     ),
                     Card(
-                      child: InkWell(
-                        onTap: () {},
-                        child: Container(
-                          height: 30,
-                          width: 30,
-                          color: Colors.white,
-                          child: const Icon(Icons.remove),
-                        ),
+                      child: Container(
+                        height: 30,
+                        width: 30,
+                        color: Colors.white,
+                        child: const Icon(Icons.remove),
                       ),
                     ),
                   ],
