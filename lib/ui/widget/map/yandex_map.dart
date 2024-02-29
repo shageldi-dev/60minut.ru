@@ -89,6 +89,7 @@ class _ClusterizedPlacemarkCollectionExampleState
   }
 
   bool isDialogOpen = false;
+
   @override
   Widget build(BuildContext context) {
     // var dataController = context.watch<HomeController>().filteredHotels;//Provider.of<HomeController>(context).filteredHotels;
@@ -97,169 +98,174 @@ class _ClusterizedPlacemarkCollectionExampleState
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           Expanded(
-              child: YandexMap(
-            mapObjects: mapObjects,
-            zoomGesturesEnabled: true,
-            rotateGesturesEnabled: true,
-            scrollGesturesEnabled: true,
-            onMapCreated: (controller) async {
-              controller.moveCamera(CameraUpdate.newCameraPosition(
-                  const CameraPosition(
-                      target: Point(
-                          latitude: 55.750104508210704,
-                          longitude: 37.61211651717664),
-                      zoom: 8.0)));
-              if (mapObjects.any((el) => el.mapId == largeMapObjectId)) {
-                return;
-              }
+              child: Stack(
+            children: [
+              YandexMap(
+                mapObjects: mapObjects,
+                zoomGesturesEnabled: true,
+                rotateGesturesEnabled: true,
+                scrollGesturesEnabled: true,
+                onMapCreated: (controller) async {
+                  controller.moveCamera(CameraUpdate.newCameraPosition(
+                      const CameraPosition(
+                          target: Point(
+                              latitude: 55.750104508210704,
+                              longitude: 37.61211651717664),
+                          zoom: 8.0)));
 
-              final largeMapObject = ClusterizedPlacemarkCollection(
-                mapId: largeMapObjectId,
-                radius: 30,
-                minZoom: 15,
-                onClusterAdded: (ClusterizedPlacemarkCollection self,
-                    Cluster cluster) async {
-                  return cluster.copyWith(
-                      appearance: cluster.appearance.copyWith(
-                          opacity: 0.75,
+                  if (mapObjects.any((el) => el.mapId == largeMapObjectId)) {
+                    return;
+                  }
+
+                  final largeMapObject = ClusterizedPlacemarkCollection(
+                    mapId: largeMapObjectId,
+                    radius: 30,
+                    minZoom: 15,
+                    onClusterAdded: (ClusterizedPlacemarkCollection self,
+                        Cluster cluster) async {
+                      return cluster.copyWith(
+                          appearance: cluster.appearance.copyWith(
+                              opacity: 0.75,
+                              icon: PlacemarkIcon.single(PlacemarkIconStyle(
+                                  image: BitmapDescriptor.fromBytes(
+                                      await _buildClusterAppearance(cluster)),
+                                  scale: 1))));
+                    },
+                    onClusterTap:
+                        (ClusterizedPlacemarkCollection self, Cluster cluster) {
+                      print('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&');
+                      print('Tapped cluster: ${cluster.placemarks}');
+                      print('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&');
+                    },
+                    placemarks: List<PlacemarkMapObject>.generate(
+                        widget.dataController.allHotels.length, (i) {
+                      return PlacemarkMapObject(
+                          mapId: MapObjectId(
+                            'placemark_${int.parse(widget.dataController.allHotels[i]!.id!)}',
+                          ),
+                          onTap: (mapObject, point) {
+                            if (!isDialogOpen) {
+                              isDialogOpen = true;
+                              showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    print(
+                                        '%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%');
+                                    print(point.toJson());
+
+                                    var find = widget.dataController.allHotels
+                                        .where((element) =>
+                                            point.latitude.toString().contains(
+                                                element!.lat!.toString()) &&
+                                            point.longitude.toString().contains(
+                                                element.lng!.toString()))
+                                        .toList();
+                                    //   Hotels find = widget.dataController.filteredHotels[0];
+                                    return Dialog(
+                                      insetPadding: const EdgeInsets.all(8),
+                                      // clipBehavior: Clip.antiAlias,
+                                      elevation: 0,
+                                      child: ItemWidget(
+                                        hotel:
+                                            widget.dataController.allHotels[i]!,
+                                        isRoom: false,
+                                      ),
+                                    );
+                                  }).then((_) {
+                                isDialogOpen = false;
+                              });
+                            }
+                            print(
+                                'Tapped me at $point/////////////////////////////////////////');
+                          },
+                          text: PlacemarkText(
+                              text:
+                                  '${widget.dataController.allHotels[i]!.price!} ₽', //"Hello",
+                              style: const PlacemarkTextStyle(
+                                  color: Colors.black,
+                                  size: 12,
+                                  placement: TextStylePlacement.center)),
+                          point: Point(
+                            latitude: double.parse(
+                                widget.dataController.allHotels[i]!.lat!),
+                            //55.756 + _randomDouble(),
+                            longitude: double.parse(widget
+                                .dataController
+                                .allHotels[i]!
+                                .lng!), //37.618 + _randomDouble(),
+                          ),
                           icon: PlacemarkIcon.single(PlacemarkIconStyle(
-                              image: BitmapDescriptor.fromBytes(
-                                  await _buildClusterAppearance(cluster)),
-                              scale: 1))));
+                              image: BitmapDescriptor.fromAssetImage(
+                                  'assets/icons/marker_bg.png'),
+                              scale: 1)));
+                    }),
+                  );
+
+                  setState(() {
+                    mapObjects.add(largeMapObject);
+                  });
                 },
-                onClusterTap:
-                    (ClusterizedPlacemarkCollection self, Cluster cluster) {
-                  print('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&');
-                  print('Tapped cluster: ${cluster.placemarks}');
-                  print('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&');
-                },
-                placemarks: List<PlacemarkMapObject>.generate(
-                    widget.dataController.allHotels.length, (i) {
-                  return PlacemarkMapObject(
-                      mapId: MapObjectId(
-                        'placemark_${int.parse(widget.dataController.allHotels[i]!.id!)}',
+              ),
+              Positioned(
+                left: 10,
+                bottom: 210,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Card(
+                      child: InkWell(
+                        onTap: () {},
+                        child: Container(
+                          height: 30,
+                          width: 30,
+                          color: Colors.white,
+                          child: const Icon(Icons.add),
+                        ),
                       ),
-                      onTap: (mapObject, point) {
-                        if (!isDialogOpen) {
-                          isDialogOpen = true;
-                          showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                print(
-                                    '%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%');
-                                print(point.toJson());
+                    ),
+                    SliderTheme(
+                      data: SliderTheme.of(context).copyWith(
 
-                                var find = widget.dataController.allHotels
-                                    .
-                                    //     .where((element) =>
-                                    // double.parse(element.lat!) == double.parse(point.latitude.toStringAsFixed(6)) &&
-                                    //     double.parse(element.lng!) == double.parse(point.longitude.toStringAsFixed(6))
-                                    // ).first;
-
-                                    // firstWhere((element) =>
-                                    // double.parse(element.lat!) == double.parse(point.latitude.toStringAsFixed(6))
-                                    //     && double.parse(element.lng!) == double.parse(point.longitude.toStringAsFixed(6)) );
-                                    where((element) =>
-                                        point.latitude.toString().contains(
-                                            element!.lat!.toString()) &&
-                                        point.longitude
-                                            .toString()
-                                            .contains(element.lng!.toString()))
-                                    .toList();
-                                //   Hotels find = widget.dataController.filteredHotels[0];
-                                return Dialog(
-                                  insetPadding: EdgeInsets.all(8),
-                                  // clipBehavior: Clip.antiAlias,
-                                  elevation: 0,
-                                  child: ItemWidget(
-                                    hotel: widget.dataController.allHotels[i]!,
-                                    isRoom: false,
-                                  ),
-                                );
-                              }).then((_) {
-                            isDialogOpen = false;
-                          });
-                        }
-                        print(
-                            'Tapped me at $point/////////////////////////////////////////');
-                      },
-                      text: PlacemarkText(
-                          text:
-                              '${widget.dataController.allHotels[i]!.price!} ₽', //"Hello",
-                          style: PlacemarkTextStyle(
-                              color: Colors.black,
-                              size: 12,
-                              placement: TextStylePlacement.center)),
-                      point: Point(
-                        latitude: double.parse(
-                            widget.dataController.allHotels[i]!.lat!),
-                        //55.756 + _randomDouble(),
-                        longitude: double.parse(widget.dataController
-                            .allHotels[i]!.lng!), //37.618 + _randomDouble(),
+                        trackHeight: 8.0, // Thickness of the slider track
+                        thumbShape: const RoundSliderThumbShape(
+                        //  disabledThumbRadius: 0,
+                          enabledThumbRadius: 10, // Size of the slider thumb
+                        ),
+                        overlayShape: const RoundSliderOverlayShape(
+                          overlayRadius: 0.0, // Padding around the thumb
+                        ),
                       ),
-                      icon: PlacemarkIcon.single(PlacemarkIconStyle(
-                          image: BitmapDescriptor.fromAssetImage(
-                              'assets/icons/marker_bg.png'),
-                          scale: 1)));
-                }),
+                      child: RotatedBox(
+                        quarterTurns: -1,
+                        child: Slider(
+                          thumbColor: Colors.white,
+                          activeColor: Colors.red,
+                          inactiveColor: Colors.black12,
+                          min: 0.0,
+                          max: 20.0,
+                          value: 5,
+                          onChanged: (double value) {
+                            setState(() {});
+                          },
+                        ),
+                      ),
+                    ),
+                    Card(
+                      child: InkWell(
+                        onTap: () {},
+                        child: Container(
+                          height: 30,
+                          width: 30,
+                          color: Colors.white,
+                          child: const Icon(Icons.remove),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
 
-                // onTap: (ClusterizedPlacemarkCollection self, Point point) {
-                //   if (!isDialogOpen) {
-                //     isDialogOpen = true; // Set the flag to true
-                //     showDialog(
-                //         context: context,
-                //         builder: (BuildContext context) {
-                //           print('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%');
-                //           print(self.toJson());
-                //
-                //           var finds =
-                //           widget.dataController.filteredHotels.
-                //           //     .where((element) =>
-                //           // double.parse(element.lat!) == double.parse(point.latitude.toStringAsFixed(6)) &&
-                //           //     double.parse(element.lng!) == double.parse(point.longitude.toStringAsFixed(6))
-                //           // ).first;
-                //
-                //           // firstWhere((element) =>
-                //           // double.parse(element.lat!) == double.parse(point.latitude.toStringAsFixed(6))
-                //           //     && double.parse(element.lng!) == double.parse(point.longitude.toStringAsFixed(6)) );
-                //           where((element) =>
-                //           point.latitude.toString().contains(element.lat!.toString()) && point.longitude.toString().contains(element.lng!.toString())
-                //           ).toList();
-                //           Hotels find = widget.dataController.filteredHotels[0];
-                //           return Dialog(
-                //             elevation: 0,
-                //             child: DialogItem(
-                //               name:find.name!,//self.mapId.value,
-                //               image: find.img!,
-                //               favorite: find.favorite,
-                //               metroName: find.metroName!,
-                //               walk: find.walk!,
-                //               price: find.price!,
-                //               priceTypeText: find.priceTypeText!,
-                //               minHour: find.minHour!,
-                //             ),
-                //           );
-                //           //  return Dialog(
-                //           //   child: Container(
-                //           //     width: 200,
-                //           //     height: 100,
-                //           //     padding: EdgeInsets.all(12),
-                //           //     child: Text("Test"),
-                //           //   ),
-                //           // );
-                //         }).then((_) {
-                //       // Set the flag back to false when the dialog is closed
-                //       isDialogOpen = false;
-                //     });
-                //   }
-                //
-                //     }
-              );
-
-              setState(() {
-                mapObjects.add(largeMapObject);
-              });
-            },
+            ],
           )),
         ]);
   }
