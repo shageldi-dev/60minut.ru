@@ -19,6 +19,7 @@ class _ShortFilterState extends State<ShortFilter> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
       child: Container(
         padding: const EdgeInsets.only(left: 16, right: 16),
         child: Row(
@@ -36,16 +37,19 @@ class _ShortFilterState extends State<ShortFilter> {
                 "/filtered/Недорогие до 700 ₽/Недорогие до 700 ₽",
               );
             }),
+            SizedBox(width: 15),
             AppButton("На час", () {
               context.push(
                 "/filtered/Номер на час/Номер на час",
               );
             }),
+            SizedBox(width: 15),
             AppButton("С джакузи", () {
               context.push(
                 "/filtered/С джакузи/С джакузи",
               );
             }),
+            SizedBox(width: 15),
             AppButton("Еще", () {
               showDialog(
                   context: context,

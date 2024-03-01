@@ -39,6 +39,7 @@ class _FilterDialogState extends State<FilterDialog> {
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
             color: white,
+            padding: EdgeInsets.all(0),
             child: Column(
               children: [
                 Expanded(
@@ -48,7 +49,7 @@ class _FilterDialogState extends State<FilterDialog> {
                       child: Column(
                         children: [
                           Padding(
-                            padding: const EdgeInsets.all(16.0),
+                            padding: const EdgeInsets.symmetric(vertical: 16,horizontal: 16),
                             child: Row(
                               children: [
                                 const Expanded(
@@ -72,7 +73,11 @@ class _FilterDialogState extends State<FilterDialog> {
                             ),
                           ),
                           const FilterByTime(),
-                          const Divider(),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 18),
+                            child: const Divider(),
+                          ),
+                          SizedBox(height: 8,),
                           FilterSegmentedButtons(
                             selected: widget.result?.priceType!
                                     .toJson()
@@ -114,9 +119,15 @@ class _FilterDialogState extends State<FilterDialog> {
                               }
                             },
                           ),
-                          const Divider(),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 18),
+                            child: const Divider(),
+                          ),
                           const FilterSearch(),
-                          const Divider(),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 19),
+                            child: const Divider(),
+                          ),
                           const FilterRating(),
                           FilterSegmentedButtons(
                             selected: "${controller.rating}",
@@ -133,7 +144,10 @@ class _FilterDialogState extends State<FilterDialog> {
                               }
                             },
                           ),
-                          const Divider(),
+                          Padding(
+                            padding: const  EdgeInsets.symmetric(horizontal: 19),
+                            child: const Divider(),
+                          ),
                           // MapEntry<String, Room>?  roomEntry = hotelDetails.rooms!.entries.elementAt(index);
                           // Room? room = roomEntry.value;
                           FilterButtons(
@@ -153,7 +167,10 @@ class _FilterDialogState extends State<FilterDialog> {
                             //   "Круглая кровать"
                             // ]
                           ),
-                          const Divider(),
+                          Padding(
+                            padding: const  EdgeInsets.symmetric(horizontal: 19),
+                            child: const Divider(),
+                          ),
                           KFilterButton(
                             buttons: widget.result?.h!
                                     .toJson()

@@ -252,8 +252,8 @@ class _RoomItemState extends State<RoomItem> {
                     )
                   ],
                 ),
-                SizedBox(height: 6),
-                Row(
+                SizedBox(height:   widget.roomModel.nightPrice != '0' ? 6 : 0),
+                widget.roomModel.nightPrice != '0' ? Row(
                   children: [
                     Text(
                       '${widget.roomModel.nightPrice!}p' ?? '',
@@ -276,9 +276,9 @@ class _RoomItemState extends State<RoomItem> {
                       ),
                     )
                   ],
-                ),
-                SizedBox(height: 6),
-                Row(
+                ) : Container(),
+                SizedBox(height:  widget.roomModel.dayPrice != '0' ? 6 : 0),
+                widget.roomModel.dayPrice != '0' ?   Row(
                   children: [
                     Text(
                       '${widget.roomModel.dayPrice!}p' ?? '',
@@ -301,7 +301,7 @@ class _RoomItemState extends State<RoomItem> {
                       ),
                     )
                   ],
-                ),
+                ) : Container(),
                 const SizedBox(
                   height: 12,
                 ),

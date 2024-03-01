@@ -19,11 +19,11 @@ class _FilterButtonsState extends State<FilterButtons> {
         listenable: controller,
         builder: (BuildContext context, Widget? child) {
           return Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(0),
             child: Wrap(
               crossAxisAlignment: WrapCrossAlignment.start,
               alignment: WrapAlignment.start,
-              spacing: 12.5,
+              spacing: 13.5,
               children: widget.buttons
                   .map(
                     (e) => AppButton(e, () {
@@ -58,11 +58,11 @@ class _KFilterButtonState extends State<KFilterButton> {
         listenable: controller,
         builder: (BuildContext context, Widget? child) {
           return Padding(
-            padding: const EdgeInsets.fromLTRB(0, 16, 16, 16),
+            padding: const EdgeInsets.fromLTRB(0, 0, /*16*/20, 16),
             child: Wrap(
               crossAxisAlignment: WrapCrossAlignment.start,
               alignment: WrapAlignment.start,
-              spacing: 32,
+              spacing: 37,
               children: widget.buttons
                   .map((e) => AppButton(e, () {
                         print(widget.values);

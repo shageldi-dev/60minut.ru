@@ -31,7 +31,7 @@ class _FilterSearchState extends State<FilterSearch> {
     return Material(
       color: Colors.transparent,
       child: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.only(left: 16,top: 16,right: 16),//all(16.0),
         child: Column(
           children: [
             Container(

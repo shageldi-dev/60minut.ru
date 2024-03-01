@@ -24,7 +24,7 @@ class FilterPrice extends StatelessWidget {
       color: Colors.transparent,
       child: InkWell(
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.symmetric(vertical: 16,horizontal: 19),//all(16.0),
           child: Row(
             children: [
               Text(

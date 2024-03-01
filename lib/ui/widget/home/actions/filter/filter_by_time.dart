@@ -15,7 +15,7 @@ class FilterByTime extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.symmetric(vertical: 8),//all(8.0),
       child: Wrap(
           crossAxisAlignment: WrapCrossAlignment.center,
           spacing: 21,

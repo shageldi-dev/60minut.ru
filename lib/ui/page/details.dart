@@ -438,7 +438,7 @@ class _DetailsWidgetState extends State<DetailsWidget>
                           Text(
                             metro.name ?? "",
                             //'Печатники',
-                            style: TextStyle(
+                            style: const TextStyle(
                               color: Color(0xFF2F2F2F),
                               fontSize: 15,
                               fontWeight: FontWeight.w400,
@@ -449,7 +449,7 @@ class _DetailsWidgetState extends State<DetailsWidget>
                           ),
                           Text(
                             '${metro.walk} мин',
-                            style: TextStyle(
+                            style: const TextStyle(
                               color: Color(0xFF585858),
                               fontSize: 15,
                               fontWeight: FontWeight.w400,
@@ -550,7 +550,7 @@ class _DetailsWidgetState extends State<DetailsWidget>
                                                   onPressed: () {
                                                     context.pop();
                                                   },
-                                                  icon: Icon(Icons.close))
+                                                  icon: const Icon(Icons.close))
                                             ],
                                           )),
                                       Expanded(
@@ -703,7 +703,7 @@ class _DetailsWidgetState extends State<DetailsWidget>
                             ),
                             Text(
                               "${e.value.title}",
-                              style: TextStyle(
+                              style: const TextStyle(
                                 color: Colors.black,
                                 fontSize: 15,
                                 fontWeight: FontWeight.w400,
@@ -955,7 +955,7 @@ class _DetailsWidgetState extends State<DetailsWidget>
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                Text(
+                                const Text(
                                   'Номеров:',
                                   style: TextStyle(
                                     color: Color(0xFF2F2F2F),
@@ -963,12 +963,12 @@ class _DetailsWidgetState extends State<DetailsWidget>
                                     fontWeight: FontWeight.w400,
                                   ),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   width: 6,
                                 ),
                                 Text(
                                   widget.rooms!.length.toString() ?? '',
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       color: Color(0xFF2F2F2F),
                                       fontSize: 24,
                                       fontFamily: 'MullerNarrow',
@@ -1066,7 +1066,7 @@ class RoomItemList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 10),
+      padding: const EdgeInsets.symmetric(vertical: 10),
       child: ListView.builder(
           physics: const NeverScrollableScrollPhysics(),
           itemCount: rooms!.length,

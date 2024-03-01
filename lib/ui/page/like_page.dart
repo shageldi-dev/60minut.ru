@@ -92,7 +92,10 @@ class _LikePageState extends State<LikePage> {
             } else if (snapshot.hasError) {
               return Text('Error: ${snapshot.error}');
             } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-              return Text('Избранное не найдено');
+              return Container(
+                alignment: Alignment.topCenter,
+                  margin: EdgeInsets.only(top: 60),
+                  child: Text('Избранное не найдено'));
             } else {
               return LikeList(
                 count: snapshot.data!.length,

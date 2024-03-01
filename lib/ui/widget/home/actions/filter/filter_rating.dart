@@ -13,7 +13,7 @@ class FilterRating extends StatelessWidget {
         listenable: controller,
         builder: (BuildContext context, Widget? child) {
           return Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.only(left: 16,right: 16,bottom: 16),//all(16.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -32,41 +32,47 @@ class FilterRating extends StatelessWidget {
                 SizedBox(
                   height: 12,
                 ),
-                Wrap(
-                  spacing: 12,
-                  crossAxisAlignment: WrapCrossAlignment.start,
-                  alignment: WrapAlignment.spaceBetween,
-                  children: [
-                    AppButton("Со скидками", () {
-                      if (controller.withDiscount == null) {
-                        controller.setWithDiscount(true);
-                      } else {
-                        controller.setWithDiscount(!controller.withDiscount!);
-                      }
-                    },
-                        isSelected: controller.withDiscount != null &&
-                            controller.withDiscount == true),
-                    AppButton("Дизайнерские номера", () {
-                      if (controller.isDesigner == null ||
-                          controller.isDesigner == false) {
-                        controller.setIsDesigner(true);
-                      } else {
-                        controller.setIsDesigner(false);
-                      }
-                    },
-                        isSelected: controller.isDesigner != null &&
-                            controller.isDesigner == true),
-                  ],
+                Padding(
+                  padding: const EdgeInsets.only(left: 6),
+                  child: Wrap(
+                    spacing: 12,
+                    crossAxisAlignment: WrapCrossAlignment.center,
+                    alignment: WrapAlignment.spaceBetween,
+                    children: [
+                      AppButton("Со скидками", () {
+                        if (controller.withDiscount == null) {
+                          controller.setWithDiscount(true);
+                        } else {
+                          controller.setWithDiscount(!controller.withDiscount!);
+                        }
+                      },
+                          isSelected: controller.withDiscount != null &&
+                              controller.withDiscount == true),
+                      AppButton("Дизайнерские номера", () {
+                        if (controller.isDesigner == null ||
+                            controller.isDesigner == false) {
+                          controller.setIsDesigner(true);
+                        } else {
+                          controller.setIsDesigner(false);
+                        }
+                      },
+                          isSelected: controller.isDesigner != null &&
+                              controller.isDesigner == true),
+                    ],
+                  ),
                 ),
                 SizedBox(
                   height: 12,
                 ),
-                Text(
-                  'Рейтинг не ниже',
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 15,
-                    fontWeight: FontWeight.w400,
+                Padding(
+                  padding: const EdgeInsets.only(left: 4),
+                  child: Text(
+                    'Рейтинг не ниже',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 15,
+                      fontWeight: FontWeight.w400,
+                    ),
                   ),
                 ),
               ],
