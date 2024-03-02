@@ -199,10 +199,10 @@ class _RoomItemState extends State<RoomItem> {
                     fontWeight: FontWeight.w800,
                   ),
                 ),
-                const SizedBox(
-                  height: 12,
+                 SizedBox(
+                  height:  widget.roomModel.hourPrice != '0' ? 12 : 0,
                 ),
-                Row(
+                widget.roomModel.hourPrice != '0' ?  Row(
                   children: [
                     Text(
                       '${widget.roomModel.hourPrice!}p'?? '',
@@ -225,11 +225,11 @@ class _RoomItemState extends State<RoomItem> {
                       ),
                     )
                   ],
+                ) : Container(),
+                 SizedBox(
+                  height: widget.roomModel.hour3Price != '0' ? 6: 0,
                 ),
-                const SizedBox(
-                  height: 6,
-                ),
-                Row(
+                widget.roomModel.hour3Price != '0' ?   Row(
                   children: [
                     Text(
                       '${widget.roomModel.hour3Price}p' ?? '',
@@ -251,7 +251,7 @@ class _RoomItemState extends State<RoomItem> {
                       ),
                     )
                   ],
-                ),
+                ) : Container(),
                 SizedBox(height:   widget.roomModel.nightPrice != '0' ? 6 : 0),
                 widget.roomModel.nightPrice != '0' ? Row(
                   children: [
@@ -328,8 +328,8 @@ class _RoomItemState extends State<RoomItem> {
                   height: 12,
                 ),
                 Text(
-                  '${widget.roomModel.images!.keys.map((e) => widget.roomModel.images![e]!.title)}' ??
-                      'Круглосуточное заселение',
+                  //'${widget.roomModel.images!.keys.map((e) => widget.roomModel.images![e]!.title)}' ?? 'Круглосуточное заселение',
+                  '${widget.roomModel.search}',
                   style: const TextStyle(
                     color: Color(0xFF2F2F2F),
                     fontSize: 15,
@@ -340,14 +340,14 @@ class _RoomItemState extends State<RoomItem> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 8.0),
+            padding:  EdgeInsets.only(left: 8.0),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.end,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Column(
                   children: [
-                    Container(
+    widget.roomModel.minBooking != '0' ?    Container(
                       padding: const EdgeInsets.all(3),
                       decoration: ShapeDecoration(
                         color: const Color(0xFFFF555A),
@@ -362,7 +362,7 @@ class _RoomItemState extends State<RoomItem> {
                           fontWeight: FontWeight.w600,
                         ),
                       ),
-                    ),
+                    ) : Container(),
                     const SizedBox(
                       height: 8,
                     )
