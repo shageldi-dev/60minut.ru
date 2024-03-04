@@ -267,8 +267,8 @@ class _RoomItemState extends State<RoomItem> {
                     const SizedBox(
                       width: 10,
                     ),
-                    const Text(
-                      'ночь с 21:00 до 10',
+                     Text(
+                      'ночь с ${widget.roomModel.from} до ${widget.roomModel.to}',
                       style: TextStyle(
                         color: Color(0xFF2F2F2F),
                         fontSize: 16,
