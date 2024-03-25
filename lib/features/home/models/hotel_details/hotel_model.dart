@@ -618,7 +618,7 @@ class Hotel {
         metroName: this.metroName!,
         time: "${this.minHour}",
         hotelId: int.parse(this.id!),
-        price: double.parse(this.price!),
+        price: int.parse(this.price!),
         priceText: "",
         ocklock: "${this.minHour}",
         phone: this.phone!);

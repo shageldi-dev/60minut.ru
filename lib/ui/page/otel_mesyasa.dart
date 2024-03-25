@@ -42,7 +42,7 @@ class _MesyasOtelPageState extends State<MesyasOtelPage> {
           bottomNavigationBar: bottomNavBar(),
           body: DetailsWidget(
             hotelDetails: _controller.hotelDetails!,
-            rooms: _controller.rooms,
+            rooms: _controller.hotelDetails!.rooms!.values.toList(),
             onFiltered: (type, from, to, services) {
               _controller.fetchRooms(_controller.roomMesyasaId!, type, from, to, services);
             },

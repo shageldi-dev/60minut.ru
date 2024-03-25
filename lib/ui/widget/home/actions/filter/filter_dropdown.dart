@@ -25,7 +25,7 @@ class FilterDropdownRegion extends StatelessWidget {
                   icon: const Icon(Icons.arrow_drop_down),
                   elevation: 16,
                   hint: Text(
-                    'Выберите район',
+                    'Выберите город',// 'Выберите район',
                     style: const TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.w400,
@@ -70,8 +70,9 @@ class FilterDropdownRegion extends StatelessWidget {
 class AddRatingDropDown extends StatefulWidget {
   final Function(String) onSelected;
   final List<String> list;
-  const AddRatingDropDown(
-      {super.key, required this.onSelected, required this.list});
+  String btnTitle;
+   AddRatingDropDown(
+      {super.key, required this.onSelected, required this.list, required this.btnTitle});
 
   @override
   State<AddRatingDropDown> createState() => _AddRatingDropDownState();
@@ -99,7 +100,7 @@ class _AddRatingDropDownState extends State<AddRatingDropDown> {
                   icon: const Icon(Icons.arrow_drop_down),
                   elevation: 16,
                   hint: Text(
-                    'Выберите район',
+                    widget.btnTitle,
                     style: const TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.w400,
@@ -165,7 +166,7 @@ class FilterDropdownCity extends StatelessWidget {
                   icon: const Icon(Icons.arrow_drop_down),
                   elevation: 16,
                   hint: Text(
-                    'Выберите город',
+                    'Выберите район',
                     style: const TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.w400,

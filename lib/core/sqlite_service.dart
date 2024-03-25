@@ -32,7 +32,7 @@ class DatabaseHelper {
             metroName TEXT,
             time TEXT,
             hotelId INTEGER,
-            price REAL,
+            price INTEGER,
             priceText TEXT,
             ocklock TEXT,
             phone TEXT

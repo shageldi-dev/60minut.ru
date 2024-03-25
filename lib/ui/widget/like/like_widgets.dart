@@ -129,7 +129,7 @@ class LikeItemWidget extends StatelessWidget {
                 ),
               ),
               const SizedBox(
-                width: 12,
+                width: 8,
               ),
               Flexible(
                 flex: 1,
@@ -219,7 +219,7 @@ class LikeItemWidget extends StatelessWidget {
                               maxLines: 1,
                             ),
                             SizedBox(
-                              width: 8,
+                              width: 6,
                             ),
                             Text(
                               "от ${fav.ocklock ?? ''} ч",

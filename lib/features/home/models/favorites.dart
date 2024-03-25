@@ -5,7 +5,7 @@ class Favorite {
   final String metroName;
   final String time;
   final int hotelId;
-  final double price;
+  final int price;
   final String priceText;
   final String ocklock;
   final String phone;

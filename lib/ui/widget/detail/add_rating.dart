@@ -182,27 +182,27 @@ class _AddRatingState extends State<AddRating> {
                   padding: const EdgeInsets.all(16.0),
                   child: Column(
                     children: [
-                      RatingSelect("Соответствие описанию", (rating) {
+                      RatingSelect("Соответствие описанию","Добавьте оценку", (rating) {
                         setState(() {
                           ratingInfo = int.parse(rating);
                         });
                       }),
-                      RatingSelect("Цена / качество", (rating) {
+                      RatingSelect("Цена / качество", "Добавьте цену",(rating) {
                         setState(() {
                           ratingPrice = int.parse(rating);
                         });
                       }),
-                      RatingSelect("Чистота", (rating) {
+                      RatingSelect("Чистота", "Добавьте чистоты",(rating) {
                         setState(() {
                           ratingClear = int.parse(rating);
                         });
                       }),
-                      RatingSelect("Комфорт", (rating) {
+                      RatingSelect("Комфорт", "Добавьте комфорта",(rating) {
                         setState(() {
                           ratingComfort = int.parse(rating);
                         });
                       }),
-                      RatingSelect("Услуги / Персонал", (rating) {
+                      RatingSelect("Услуги / Персонал", "Добавьте услуги",(rating) {
                         setState(() {
                           ratingService = int.parse(rating);
                         });
@@ -314,7 +314,7 @@ class _AddRatingState extends State<AddRating> {
   }
 }
 
-Widget RatingSelect(String text, void Function(String) onSelected) {
+Widget RatingSelect(String text,String btnTitle, void Function(String) onSelected) {
   return Row(
     children: [
       Expanded(
@@ -330,6 +330,7 @@ Widget RatingSelect(String text, void Function(String) onSelected) {
           child: AddRatingDropDown(
         list: ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"],
         onSelected: onSelected,
+            btnTitle:btnTitle ,
       ))
     ],
   );

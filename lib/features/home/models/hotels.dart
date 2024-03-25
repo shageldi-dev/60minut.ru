@@ -108,7 +108,7 @@ class Hotels {
         metroName: this.metroName!,
         time: "${this.walk}",
         hotelId: int.parse(this.hotelId!),
-        price: double.parse(this.price!),
+        price: int.parse(this.price!),
         priceText: this.priceTypeText!,
         ocklock: "${this.minHour}",
         phone: this.phone!);

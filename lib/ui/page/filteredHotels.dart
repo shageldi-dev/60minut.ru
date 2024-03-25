@@ -40,7 +40,7 @@ class _FilteredHotelsPageState extends State<FilteredHotelsPage> {
         children: [
           Container(
             alignment: Alignment.center,
-            child: Text(widget.title,
+            child: Text(widget.title.replaceAll("₽", ""),
                 style: mullerNarrowStyle.copyWith(
                     fontWeight: FontWeight.w300, fontSize: 24)),
           ),

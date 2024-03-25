@@ -10,6 +10,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shimmer/shimmer.dart';
 
+import '../other/metro_colors.dart';
+
 class ItemWidget extends StatefulWidget {
   final Hotels hotel;
   final bool isRoom;
@@ -176,7 +178,7 @@ class _ItemWidgetState extends State<ItemWidget> {
                         children: [
                           SvgPicture.asset(
                             "assets/icons/Metro.svg",
-                            color: const Color(0xFF8C8C8C),
+                          color:getRandomColor("${widget.hotel.metroName}"),
                           ),
                           Expanded(
                             flex: 1,

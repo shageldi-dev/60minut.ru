@@ -27,6 +27,7 @@ import 'package:shimmer/shimmer.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import '../../features/home/models/hotel_details/room_model.dart';
 import '../widget/app_drawer.dart';
+import '../widget/other/metro_colors.dart';
 
 class DetailsPage extends StatefulWidget {
   const DetailsPage({super.key, required this.id});
@@ -37,6 +38,8 @@ class DetailsPage extends StatefulWidget {
 
 class _DetailsPageState extends State<DetailsPage> {
   final _controller = HomeController();
+
+
 
   @override
   void initState() {
@@ -56,14 +59,16 @@ class _DetailsPageState extends State<DetailsPage> {
         if (_controller.loading) {
           return const Center(child: CircularProgressIndicator());
         }
-        return Scaffold(
-          bottomNavigationBar: bottomNavBar(),
-          body: DetailsWidget(
-            hotelDetails: _controller.hotelDetails!,
-            rooms: _controller.rooms,
-            onFiltered: (type, from, to, services) {
-              _controller.fetchRooms(widget.id, type, from, to, services);
-            },
+        return SafeArea(
+          child: Scaffold(
+            bottomNavigationBar: bottomNavBar(),
+            body: DetailsWidget(
+              hotelDetails: _controller.hotelDetails!,
+              rooms: _controller.rooms,
+              onFiltered: (type, from, to, services) {
+                _controller.fetchRooms(widget.id, type, from, to, services);
+              },
+            ),
           ),
         );
       },
@@ -71,6 +76,8 @@ class _DetailsPageState extends State<DetailsPage> {
   }
 
   Container bottomNavBar() {
+    if ("${_controller.hotelDetails!.hotel!.messengerWhatsapp}" == "1")
+       controller.isWhatsApp =true;
     return Container(
       width: double.infinity,
       height: 60, //const Color(0xB2454545).withOpacity(0.5)
@@ -79,6 +86,7 @@ class _DetailsPageState extends State<DetailsPage> {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+
           if ("${_controller.hotelDetails!.hotel!.messengerWhatsapp}" == "1")
             Container(
               padding: const EdgeInsets.only(
@@ -430,7 +438,7 @@ class _DetailsWidgetState extends State<DetailsWidget>
                         children: [
                           SvgPicture.asset(
                             "assets/icons/Metro.svg",
-                            color: const Color(0xFF7CBE37),
+                            color:getRandomColor(metro.name!) ,
                           ),
                           const SizedBox(
                             width: 6,
@@ -722,6 +730,7 @@ class _DetailsWidgetState extends State<DetailsWidget>
               child: Wrap(
                 spacing: 12,
                 runSpacing: 12,
+                alignment: WrapAlignment.center,
                 children: [
                   if ("${widget.hotelDetails.hotel!.phone}".trim().isNotEmpty)
                     InkWell(
@@ -769,8 +778,8 @@ class _DetailsWidgetState extends State<DetailsWidget>
                         ),
                       ),
                     ),
-                  if ("${widget.hotelDetails.hotel!.messengerWhatsapp}" == "1")
-                    Container(
+                 // if ("${widget.hotelDetails.hotel!.messengerWhatsapp}" == "1")
+                  controller.isWhatsApp ? Container() :  Container(
                       padding: const EdgeInsets.only(
                         top: 9,
                         left: 14,
@@ -904,7 +913,7 @@ class _DetailsWidgetState extends State<DetailsWidget>
                       ),
                       clipBehavior: Clip.antiAlias,
                       decoration: ShapeDecoration(
-                        color: const Color(0xFF54BB6A),
+                        color: const Color(0xFF5E54BB),
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8)),
                       ),

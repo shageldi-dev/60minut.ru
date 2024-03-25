@@ -26,6 +26,12 @@ String globalDrawerMetroId = '';
 HomeController controller = HomeController();
 
 class HomeController extends ChangeNotifier {
+  // var isLiked = false;
+  // setLike(bool val){
+  //   isLiked = val;
+  //   notifyListeners();
+  // }
+  bool isWhatsApp = false;
   filter.FilterOptions? result;
   Hotell? hotel;
   OtelMesyasaModel? roomMesyasaModel;
@@ -189,6 +195,24 @@ class HomeController extends ChangeNotifier {
 
       ///filter
       selectedFilterMetroId = val.id;
+      notifyListeners();
+      fetchHotels(_path);
+    } catch (e) {}
+  }
+
+  //test
+  void selectMetroIdd(String val) {
+    try {
+      var vl = metroList!.firstWhere((element) => element.name==val);
+      selectedMetro = vl;
+      selectedMetroIdList!.add(vl.id!);
+      metro!.add(vl.id!);
+      selectedMetroList!.add(vl.name!);
+      globalMainPageMetroIdList.add(vl.id!);
+      globalMainPageMetroId = vl.id!;
+
+      ///filter
+      selectedFilterMetroId = vl.id;
       notifyListeners();
       fetchHotels(_path);
     } catch (e) {}
@@ -698,7 +722,8 @@ class HomeController extends ChangeNotifier {
     try {
       final response = await apiUtils.get(url: url);
 
-      setApiPath(ApiEndPoints.hotels);
+      ///setApiPath(ApiEndPoints.hotels); basdaky yagdayy
+      setApiPath(url); // sonky
       if (response != null) {
         roomMesyasaModel = OtelMesyasaModel.fromJson(response.data);
         otelMesyasaId = roomMesyasaModel!.hotel!.id; //.hotel!.hotelId;
